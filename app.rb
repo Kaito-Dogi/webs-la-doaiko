@@ -8,6 +8,11 @@ enable :sessions
 
 get '/' do
     puts "======================== #{session[:user_id]} ========================"
+    unless session[:user_id].nil?
+        @user = User.find(session[:user_id]) 
+        @user_courses = @user.user_courses
+        @user_classrooms = @user.user_classrooms
+    end
     erb :index
 end
 
@@ -40,7 +45,7 @@ post '/signup' do
         ]
         course_ids.each do |course_id|
             unless course_id.nil?
-                User_course.create!(
+                UserCourse.create!(
                     user_id: user.id,
                     course_id: course_id,
                     level: 1
@@ -73,7 +78,7 @@ post '/signup' do
         ]
         classroom_ids.each do |classroom_id|
             unless classroom_id.nil?
-                User_classroom.create!(
+                UserClassroom.create!(
                     user_id: user.id,
                     classroom_id: classroom_id
                 )
@@ -81,5 +86,23 @@ post '/signup' do
         end
     end
     
+    redirect '/'
+end
+
+get '/signin' do
+    erb :signin
+end
+
+post '/signin' do
+    user = User.find_by(name: params[:name])
+    if user && user.authenticate(params[:password])
+        session[:user_id] = user.id
+        puts "======================== #{session[:user_id]} ========================"
+    end
+    redirect '/'
+end
+
+get '/signout' do
+    session[:user_id] = nil
     redirect '/'
 end

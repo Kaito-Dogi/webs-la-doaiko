@@ -1,3 +1,6 @@
+require 'bundler/setup'
+Bundler.require
+
 ActiveRecord::Base.establish_connection
 
 class User < ActiveRecord::Base
@@ -38,12 +41,12 @@ class Course < ActiveRecord::Base
     has_many :users, through: :user_courses
 end
 
-class User_classroom < ActiveRecord::Base
+class UserClassroom < ActiveRecord::Base
     belongs_to :user
-    belongs_to :classrooms
+    belongs_to :classroom
 end
 
-class User_course < ActiveRecord::Base
+class UserCourse < ActiveRecord::Base
     belongs_to :user
     belongs_to :course
 end
