@@ -12,22 +12,18 @@ Area.create!(
         {
             name: "関東",
             lowercase_name: "east"
-            
         },
         {
             name: "関西",
             lowercase_name: "west"
-            
         },
         {
             name: "東海",
             lowercase_name: "central"
-            
         },
         {
             name: "オンライン",
             lowercase_name: "online"
-            
         },
     ]
 )
@@ -271,5 +267,5 @@ Course.create!(
             popular_name: "Webサービス",
             lowercase_name: "webs"
         },
-    ]   
+    ]
 )
