@@ -17,11 +17,13 @@ ActiveRecord::Schema.define(version: 2021_09_18_182656) do
 
   create_table "areas", force: :cascade do |t|
     t.string "name"
+    t.string "lowercase_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "classrooms", force: :cascade do |t|
+    t.string "lowercase_name"
     t.integer "area_id"
     t.integer "place_id"
     t.integer "schedule_id"
@@ -30,13 +32,16 @@ ActiveRecord::Schema.define(version: 2021_09_18_182656) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string "name"
+    t.string "official_name"
+    t.string "popular_name"
+    t.string "lowercase_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "places", force: :cascade do |t|
     t.string "name"
+    t.string "lowercase_name"
     t.integer "area_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
