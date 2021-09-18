@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2021_09_18_182656) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "user_cources", force: :cascade do |t|
+  create_table "user_courses", force: :cascade do |t|
     t.integer "user_id"
     t.integer "course_id"
     t.integer "level"

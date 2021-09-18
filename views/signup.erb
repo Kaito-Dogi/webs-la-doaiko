@@ -1,31 +1,31 @@
 <h1>新規登録</h1>
 <!--<form action="signup" method="post" enctype="multipart/form-data">-->
 <form action="signup" method="post">
-    <input type="text" name="name" placeholder="メンター名" required>
-    <input type="email" name="email" placeholder="Gmailアドレス" required>
-    <input type="password" name="password" placeholder="パスワード" required>
-    <input type="password" name="password_confirmation" placeholder="パスワードを確認" required>
+    <h2>メンター情報</h2>
+    <input type="text" name="name" placeholder="メンター名" required><br>
+    <input type="email" name="email" placeholder="Gmailアドレス" required><br>
+    <% @areas.each do |area| %>
+        <% if area.name != "オンライン" %>
+            <input type="radio" name="area_id" value="<%= area.id %>" id="<%= area.lowercase_name %>">
+            <label for="<%= area.lowercase_name %>"><%= area.name %></label><br>
+        <% end %>
+    <% end %>
+    <input type="number" name="term" placeholder="期" min="1" max="13"><br>
+    <input type="file" name="file" accept="image/*"><br>
+    <input type="password" name="password" placeholder="パスワード" required><br>
+    <input type="password" name="password_confirmation" placeholder="パスワードを確認" required><br>
     
-    <input type="number" name="term" placeholder="期" min="1" max="13">
+    <h2>担当コース</h2>
+    <% @courses.each do |course| %>
+        <input type="checkbox" name="<%= course.lowercase_name %>" value="<%= course.id %>" id="<%= course.lowercase_name %>">
+        <label for="<%= course.lowercase_name %>"><%= course.official_name %></label><br>
+    <% end %>
     
-    <input type="radio" name="area" value="関東" id="kanto">
-    <label for="kanto">関東</label>
-    <input type="radio" name="area" value="関東" id="kansai">
-    <label for="kansai">関西</label>
-    <input type="radio" name="area" value="関東" id="tokai">
-    <label for="tokai">東海</label>
+    <h2>所属校舎</h2>
+    <% @classrooms.each do |classroom| %>
+        <input type="checkbox" name="<%= classroom.lowercase_name %>" value="<%= classroom.id %>" id="<%= classroom.lowercase_name %>">
+        <label for="<%= classroom.lowercase_name %>"><%= classroom.schedule.dayOfWeek + classroom.schedule.kind + classroom.place.name %></label><br>
+    <% end %>
     
-    <input type="checkbox" name="iphone" value="iphone" id="iphone">
-    <label for="iphone">iPhone</label>
-    <input type="checkbox" name="android" value="android" id="android">
-    <label for="android">android</label>
-    <input type="checkbox" name="unity" value="unity" id="unity">
-    <label for="unity">unity</label>
-    <input type="checkbox" name="webd" value="webd" id="webd">
-    <label for="webd">webd</label>
-    <input type="checkbox" name="webs" value="webs" id="webs">
-    <label for="webs">webs</label>
-    
-    <input type="file" name="file" accept="image/*">
-    <!--<input type="submit" value="Sign up">-->
+    <input type="submit" value="Sign up">
 </form>
