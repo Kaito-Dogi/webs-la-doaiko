@@ -22,8 +22,9 @@ configure do
     
     set :show_exceptions, false
     set :client_id, Google::Auth::ClientId.new(
-                                            ENV['GOOGLE_CLIENT_ID'],
-                                            ENV['GOOGLE_CLIENT_SECRET'])
+        ENV['GOOGLE_CLIENT_ID'],
+        ENV['GOOGLE_CLIENT_SECRET']
+    )
     set :token_store, Google::Auth::Stores::FileTokenStore.new(file: "token.yaml")
 end
 
@@ -163,11 +164,12 @@ get('/calendar') do
     puts calendar.authorization
     calendar_id = 'primary'
     @result = calendar.list_events(
-                                calendar_id,
-                                max_results: 100,
-                                single_events: true,
-                                order_by: 'startTime',
-                                time_min: Time.now.iso8601)
+        calendar_id,
+        max_results: 100,
+        single_events: true,
+        order_by: 'startTime',
+        time_min: Time.now.iso8601
+    )
     erb :calendar
 end
 
