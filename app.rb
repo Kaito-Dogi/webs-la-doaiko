@@ -144,7 +144,7 @@ post '/signin' do
         session[:user_id] = claim['sub']
         puts session[:user_id]
         session[:user_email] = claim['email']
-        puts session[:user_id]
+        puts session[:user_email]
         200
     else
         logger.info('No valid identity token present')
@@ -168,7 +168,8 @@ get('/calendar') do
         max_results: 100,
         single_events: true,
         order_by: 'startTime',
-        time_min: Time.now.iso8601
+        time_min: Time.now.iso8601,
+        time_max: (Time.now + 60*60*24).iso8601
     )
     erb :calendar
 end
