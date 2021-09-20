@@ -11,6 +11,8 @@ gem 'sinatra', '~> 2.1'
 gem 'sinatra-activerecord', '~> 2.0'
 gem 'sinatra-contrib', '~> 2.1'
 gem 'webrick', '~> 1.7'
+gem 'googleauth', '~> 0.17.1'
+gem 'google-api-client', '~> 0.53.0'
 
 group :development do
   gem 'debase'
