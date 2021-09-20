@@ -7,10 +7,13 @@ require "google/apis/calendar_v3"
 require "googleauth"
 require "googleauth/stores/file_token_store"
 require 'google-id-token'
+require 'dotenv'
 
 LOGIN_URL = '/'
 
 configure do
+    Dotenv.load
+
     Google::Apis::ClientOptions.default.application_name = 'DOAIKO'
     Google::Apis::ClientOptions.default.application_version = '0.9'
     Google::Apis::RequestOptions.default.retries = 3
@@ -18,12 +21,11 @@ configure do
     enable :sessions
     
     set :show_exceptions, false
-    set :client_id, Google::Auth::ClientId.new(ENV['GOOGLE_CLIENT_ID'],
-                                             ENV['GOOGLE_CLIENT_SECRET'])
+    set :client_id, Google::Auth::ClientId.new(
+                                            ENV['GOOGLE_CLIENT_ID'],
+                                            ENV['GOOGLE_CLIENT_SECRET'])
     set :token_store, Google::Auth::Stores::FileTokenStore.new(file: "token.yaml")
 end
-
-
 
 helpers do
     # Returns credentials authorized for the requested scopes. If no credentials are available,
