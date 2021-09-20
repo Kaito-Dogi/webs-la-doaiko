@@ -134,15 +134,51 @@ get '/signin' do
 end
 
 post '/signin' do
-    user = User.find_by(name: params[:name])
-    if user && user.authenticate(params[:password])
-        session[:user_id] = user.id
-        puts "======================== #{session[:user_id]} ========================"
+    audience = settings.client_id.id
+    validator = GoogleIDToken::Validator.new
+    claim = validator.check(params['id_token'], audience, audience)
+    if claim
+        session[:user_id] = claim['sub']
+        puts session[:user_id]
+        session[:user_email] = claim['email']
+        puts session[:user_id]
+        200
+    else
+        logger.info('No valid identity token present')
+        401
     end
-    redirect '/'
+    # user = User.find_by(name: params[:name])
+    # if user && user.authenticate(params[:password])
+    #     session[:user_id] = user.id
+    #     puts "======================== #{session[:user_id]} ========================"
+    # end
+    # redirect '/'
+end
+
+get('/calendar') do
+    calendar = Google::Apis::CalendarV3::CalendarService.new
+    calendar.authorization = credentials_for(Google::Apis::CalendarV3::AUTH_CALENDAR)
+    puts calendar.authorization
+    calendar_id = 'primary'
+    @result = calendar.list_events(
+                                calendar_id,
+                                max_results: 100,
+                                single_events: true,
+                                order_by: 'startTime',
+                                time_min: Time.now.iso8601)
+    erb :calendar
+end
+
+get('/oauth2callback') do
+    target_url = Google::Auth::WebUserAuthorizer.handle_auth_callback_deferred(request)
+    redirect target_url
 end
 
 get '/signout' do
     session[:user_id] = nil
     redirect '/'
+end
+
+get '/mypage' do
+    erb :mypage
 end
