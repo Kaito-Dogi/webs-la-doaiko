@@ -267,5 +267,10 @@ Course.create!(
             popular_name: "Webサービス",
             lowercase_name: "webs"
         },
+        {
+            official_name: "クラスアシスタント",
+            popular_name: "CA",
+            lowercase_name: "ca"
+        },
     ]
 )
