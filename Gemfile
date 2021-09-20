@@ -13,6 +13,8 @@ gem 'sinatra-contrib', '~> 2.1'
 gem 'webrick', '~> 1.7'
 gem 'googleauth', '~> 0.17.1'
 gem 'google-api-client', '~> 0.53.0'
+gem 'google-apis-calendar_v3', '~> 0.12.0'
+gem 'google-id-token', '~> 1.4', '>= 1.4.2'
 
 group :development do
   gem 'debase'
