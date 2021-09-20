@@ -20,7 +20,7 @@ get '/signup' do
     @areas = Area.all
     @classrooms = Classroom.all
     @courses = Course.all
-    erb :signup
+    erb :signup, layout: nil
 end
 
 post '/signup' do
@@ -90,7 +90,7 @@ post '/signup' do
 end
 
 get '/signin' do
-    erb :signin
+    erb :signin, layout: nil
 end
 
 post '/signin' do
