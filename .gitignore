@@ -1,3 +1,7 @@
 client_secret.json
-token.yaml
 .env
+token.yaml
+
+*.css
+*.map
+/public/assets/css/.sass-cache
