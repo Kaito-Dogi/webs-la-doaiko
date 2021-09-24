@@ -259,12 +259,12 @@ Course.create!(
         },
         {
             official_name: "Webデザインコース",
-            popular_name: "Webデザイン",
+            popular_name: "WebD",
             lowercase_name: "webd"
         },
         {
             official_name: "Webサービスプログラミングコース",
-            popular_name: "Webサービス",
+            popular_name: "WebS",
             lowercase_name: "webs"
         },
         {
