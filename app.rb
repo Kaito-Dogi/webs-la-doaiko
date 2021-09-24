@@ -51,8 +51,10 @@ end
 
 get '/' do
     @client_id = settings.client_id.id
-    puts "======================== #{session[:user_id]} ========================"
-    puts "======================== #{session[:user_email]} ========================"
+    @user_id = session[:user_id]
+    @user_email = session[:user_email]
+    puts "======================== #{@user_id} ========================"
+    puts "======================== #{@user_email} ========================"
     # unless session[:user_id].nil?
     #     @user = User.find(session[:user_id]) 
     #     @user_courses = @user.user_courses
@@ -134,6 +136,7 @@ end
 
 get '/signin' do
     erb :signin, layout: nil
+    # erb :home
 end
 
 post '/signin' do
