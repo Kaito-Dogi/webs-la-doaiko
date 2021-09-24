@@ -3,9 +3,10 @@ Bundler.require
 require 'sinatra/reloader' if development?
 require 'sinatra/activerecord'
 require './models'
-require "google/apis/calendar_v3"
 require "googleauth"
+require 'googleauth/web_user_authorizer'
 require "googleauth/stores/file_token_store"
+require "google/apis/calendar_v3"
 require 'google-id-token'
 require 'dotenv'
 
@@ -29,16 +30,17 @@ configure do
 end
 
 helpers do
-    # Returns credentials authorized for the requested scopes. If no credentials are available,
-    # redirects the user to authorize access.
     def credentials_for(scope)
-        authorizer = Google::Auth::WebUserAuthorizer.new(settings.client_id, scope, settings.token_store)
+    # def credentials_for(scope, user_id)
+        authorizer = Google::Auth::WebUserAuthorizer.new(settings.client_id, scope, settings.token_store, '/oauth2callback')
         user_id = session[:user_id]
         redirect LOGIN_URL if user_id.nil?
         credentials = authorizer.get_credentials(user_id, request)
         if credentials.nil?
             redirect authorizer.get_authorization_url(login_hint: user_id, request: request)
         end
+        puts credentials.access_token
+        puts credentials.refresh_token
         credentials
     end
     
@@ -70,8 +72,6 @@ post '/signup' do
     user = User.create!(
         name: params[:name],
         email: params[:email],
-        term: params[:term],
-        image_url: "./assets/img/default_icon.png",
         area_id: params[:area_id],
         password: params[:password],
         password_confirmation: params[:password_confirmation]
@@ -140,6 +140,8 @@ post '/signin' do
     audience = settings.client_id.id
     validator = GoogleIDToken::Validator.new
     claim = validator.check(params['id_token'], audience, audience)
+    puts claim
+    puts params[:id_token]
     if claim
         session[:user_id] = claim['sub']
         puts session[:user_id]
@@ -150,6 +152,7 @@ post '/signin' do
         logger.info('No valid identity token present')
         401
     end
+    # redirect '/oauth2callback'
     # user = User.find_by(name: params[:name])
     # if user && user.authenticate(params[:password])
     #     session[:user_id] = user.id
@@ -161,7 +164,6 @@ end
 get('/calendar') do
     calendar = Google::Apis::CalendarV3::CalendarService.new
     calendar.authorization = credentials_for(Google::Apis::CalendarV3::AUTH_CALENDAR)
-    puts calendar.authorization
     calendar_id = 'primary'
     @result = calendar.list_events(
         calendar_id,
@@ -169,8 +171,18 @@ get('/calendar') do
         single_events: true,
         order_by: 'startTime',
         time_min: Time.now.iso8601,
-        time_max: (Time.now + 60*60*24).iso8601
+        # time_max: (Time.now + 60*60*24).iso8601
     )
+    # calendar.authorization = credentials_for(Google::Apis::CalendarV3::AUTH_CALENDAR, "106475151483464901274")
+    # puts calendar.authorization
+    # @result2 = calendar.list_events(
+    #     calendar_id,
+    #     max_results: 100,
+    #     single_events: true,
+    #     order_by: 'startTime',
+    #     time_min: Time.now.iso8601,
+    #     # time_max: (Time.now + 60*60*24).iso8601
+    # )
     erb :calendar
 end
 
