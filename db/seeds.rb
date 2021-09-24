@@ -1,12 +1,3 @@
-User.create!(
-    name: "test",
-    email: "test@test.com",
-    term: 99,
-    image_url: "./assets/img/default_icon.png",
-    area_id: 1,
-    password: "test"
-)
-
 Area.create!(
     [
         {
