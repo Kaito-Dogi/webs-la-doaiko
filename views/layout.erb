@@ -13,26 +13,60 @@
 			<%# ロゴの画像を入れる． %>
 			<li><a href="/">🍌</a></li>
 			<% if session[:token_key].nil? %>
-				<li><a href="/signin">Sign in</a></li>
-				<li><a href="/signup">Sign up</a></li>
+			  <div id="my-signin2"></div>
+			  <li><img src="./assets/img/default_icon.png"></a></li>
 			<% else %>
 				<%# ユーザーの画像を入れる． %>
-				<li><a href="/mypage">My page</a></li>
 				<li><a href="/calendar">Calendar</a></li>
 				<li><a href="/signout" onclick="signOut();">Sign out</a></li>
+				<li><a href="/mypage"><img src="<%= current_user.image_url %>"></a></li>
 			<% end %>
 		</ul>
 	</nav>
 	<main>
 		<%= yield %>
 	</main>
-	<script>
-	  function signOut() {
-	    var auth2 = gapi.auth2.getAuthInstance();
-	    auth2.signOut().then(function () {
-	      console.log('User signed out.');
-	    });
-	  }
+  <script>
+    function onSignIn(googleUser) {
+      var id_token = googleUser.getAuthResponse().id_token;
+      var formData = new FormData();
+      formData.append('id_token', id_token);
+      var req = new XMLHttpRequest();
+      req.addEventListener("load", function() {
+        console.log("Log in successful");
+      });
+      req.addEventListener("error", function() {
+        console.log("Log in failed");
+      });
+      req.open("POST", "/signin");
+      req.send(formData);
+    }
+
+    function onFailure(error) {
+      console.log(error);
+    }
+
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        // 'accesstype': 'offline',
+        'onsuccess': onSignIn,
+        'onfailure': onFailure
+      });
+    }
+
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
   </script>
+
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </body>
 </html>

@@ -49,6 +49,11 @@ helpers do
     def resize(url, width)
         url.sub(/s220/, sprintf('s%d', width))
     end
+
+    # ログインユーザーを取得．
+    def current_user
+        User.find(session[:user_id])
+    end
 end
 
 get '/' do
@@ -62,7 +67,7 @@ get '/' do
     #     @user_courses = @user.user_courses
     #     @user_classrooms = @user.user_classrooms
     # end
-    erb :home
+    erb :signin
 end
 
 get '/signup' do
@@ -156,6 +161,7 @@ post '/signin' do
             user.update!(
                 name: claim['name'],
                 email: claim['email'],
+                image_url: claim['picture'],
                 default_image_url: claim['picture']
             )
         end
@@ -167,6 +173,7 @@ post '/signin' do
         puts user.token_key
         puts user.name
         puts user.email
+        puts user.image_url
         puts user.default_image_url
         puts "==================== current user ===================="
 
