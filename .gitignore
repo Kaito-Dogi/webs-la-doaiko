@@ -8,6 +8,5 @@ token.yaml
 token2.yaml
 token3.yaml
 
-*.css
 *.map
 /public/assets/css/.sass-cache
