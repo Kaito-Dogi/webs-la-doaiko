@@ -39,6 +39,10 @@ helpers do
         if credentials.nil?
             redirect authorizer.get_authorization_url(login_hint: token_key, request: request)
         end
+
+        puts credentials.access_token
+        puts credentials.refresh_token
+
         credentials
     end
     
@@ -141,25 +145,36 @@ post '/signin' do
     audience = settings.client_id.id
     validator = GoogleIDToken::Validator.new
     claim = validator.check(params['id_token'], audience, audience)
+
     puts claim
-    puts params[:id_token]
+
     if claim
-        session[:user_id] = claim['sub']
-        puts session[:user_id]
-        session[:user_email] = claim['email']
-        puts session[:user_email]
+        # ログインユーザーをデータベースから参照．
+        user = User.find_or_initialize_by(token_key: claim['sub'])
+        # 新規ユーザーなら保存．
+        if user.new_record?
+            user.update!(
+                name: claim['name'],
+                email: claim['email'],
+                default_image_url: claim['picture']
+            )
+        end
+        # ログインユーザーの情報をセッションに保存．
+        session[:token_key] = user.token_key
+        session[:user_id] = user.id
+
+        puts "==================== current user ===================="
+        puts user.token_key
+        puts user.name
+        puts user.email
+        puts user.default_image_url
+        puts "==================== current user ===================="
+
         200
     else
         logger.info('No valid identity token present')
         401
     end
-    # redirect '/oauth2callback'
-    # user = User.find_by(name: params[:name])
-    # if user && user.authenticate(params[:password])
-    #     session[:user_id] = user.id
-    #     puts "======================== #{session[:user_id]} ========================"
-    # end
-    # redirect '/'
 end
 
 get('/calendar') do
