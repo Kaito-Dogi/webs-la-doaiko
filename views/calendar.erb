@@ -1,21 +1,28 @@
 <section>
-  <h5>Next 10 events</h5>
-  <table class="">
-    <thead>
-    <tr>
-      <th class="">Start Time</th>
-      <th class="">End Time</th>
-      <th class="">Summary</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @result.items.each do |event| %>
-        <tr>
-          <td class=""><%= event.start.date_time || event.start.date %></td>
-          <td class=""><%= event.end.date_time || event.end.date %></td>
-          <td class=""><%= event.summary %></td>
-        </tr>
+  <form action="/search" method="post">
+    <label class="date-edit"><input name="date" type="date" value="2021/09/26" required/></label>
+    <% courses.each do |course| %>
+      <input type="checkbox" name="<%= course.lowercase_name %>" value="<%= course.id %>" id="<%= course.lowercase_name %>">
+      <label for="<%= course.lowercase_name %>" class="course-chips" id="<%= course.lowercase_name %>-chip"><%= course.popular_name %></label>
     <% end %>
-    </tbody>
-  </table>
+    <button type="submit">検索</button>
+  </form>
+  <div class="calendar-wrapper">
+    <% (0..9).each do |i| %>
+      <div class="calendar-row">
+        <div class="user-wrapper">
+          <a href="/mypage" class="user-image-container"><img src="<%= current_user.image_url %>" class="user-image"></a>
+          <div class="user-data-container">
+            <p>どぎー</p>
+            <p>Android, WebS, WebD</p>
+          </div>
+        </div>
+        <div class="schedule-wrapper">
+          <% (9..23).each do |h| %>
+            <div class="one-hour-box"></div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </section>

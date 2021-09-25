@@ -54,6 +54,11 @@ helpers do
     def current_user
         User.find(session[:user_id])
     end
+
+    # コースを取得．
+    def courses
+        Course.all
+    end
 end
 
 get '/' do
@@ -67,7 +72,8 @@ get '/' do
     #     @user_courses = @user.user_courses
     #     @user_classrooms = @user.user_classrooms
     # end
-    erb :home
+    # erb :home
+    erb :calendar
 end
 
 get '/signup' do
