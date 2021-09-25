@@ -33,14 +33,12 @@ helpers do
     def credentials_for(scope)
     # def credentials_for(scope, user_id)
         authorizer = Google::Auth::WebUserAuthorizer.new(settings.client_id, scope, settings.token_store, '/oauth2callback')
-        user_id = session[:user_id]
-        redirect LOGIN_URL if user_id.nil?
-        credentials = authorizer.get_credentials(user_id, request)
+        token_key = session[:token_key]
+        redirect LOGIN_URL if token_key?
+        credentials = authorizer.get_credentials(token_key, request)
         if credentials.nil?
-            redirect authorizer.get_authorization_url(login_hint: user_id, request: request)
+            redirect authorizer.get_authorization_url(login_hint: token_key, request: request)
         end
-        puts credentials.access_token
-        puts credentials.refresh_token
         credentials
     end
     
@@ -51,12 +49,12 @@ end
 
 get '/' do
     @client_id = settings.client_id.id
-    @user_id = session[:user_id]
+    @user_id = session[:token_key]
     @user_email = session[:user_email]
     puts "======================== #{@user_id} ========================"
     puts "======================== #{@user_email} ========================"
-    # unless session[:user_id].nil?
-    #     @user = User.find(session[:user_id]) 
+    # unless session[:token_key].nil?
+    #     @user = User.find(session[:token_key]) 
     #     @user_courses = @user.user_courses
     #     @user_classrooms = @user.user_classrooms
     # end
@@ -79,7 +77,7 @@ post '/signup' do
         password_confirmation: params[:password_confirmation]
     )
     if user.persisted?
-        session[:user_id] = user.id
+        session[:token_key] = user.id
         
         course_ids = [
             params[:iphone],
@@ -195,7 +193,7 @@ get('/oauth2callback') do
 end
 
 get '/signout' do
-    session[:user_id] = nil
+    session[:token_key] = nil
     redirect '/'
 end
 
