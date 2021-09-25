@@ -72,9 +72,11 @@ ActiveRecord::Schema.define(version: 2021_09_18_182656) do
   create_table "users", force: :cascade do |t|
     t.string "token_key"
     t.string "name"
+    t.string "nickname"
     t.string "email"
     t.integer "term"
     t.string "image_url"
+    t.string "default_image_url"
     t.integer "area_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
