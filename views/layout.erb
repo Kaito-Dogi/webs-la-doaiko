@@ -20,7 +20,7 @@
 			<% else %>
 				<%# ユーザーの画像を入れる． %>
 				<li><a href="/signout" onclick="signOut();">Sign out</a></li>
-				<li><a href="/mypage" class="user-image-wrapper"><img src="<%= current_user.image_url %>" class="user-image"></a></li>
+				<li><a href="/mypage" class="user-image-container"><img src="<%= current_user.image_url %>" class="user-image"></a></li>
 			<% end %>
 		</ul>
 	</nav>
