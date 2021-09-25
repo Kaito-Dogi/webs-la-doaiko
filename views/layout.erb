@@ -4,6 +4,9 @@
 	<meta charset="UTF-8">
 	<title>DOAIKO</title>
 	<link rel="stylesheet" href="/assets/css/index.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<meta name="google-signin-client_id" content="<%= @client_id %>">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +14,13 @@
 	<nav>
 		<ul>
 			<%# ロゴの画像を入れる． %>
-			<li><a href="/">🍌</a></li>
+			<li class="title-logo"><a href="/">DOAIKO</a></li>
 			<% if session[:token_key].nil? %>
-			  <li><img src="./assets/img/default_icon.png"></a></li>
+			  <li><img src="./assets/img/default_icon.png" class="user-image"></a></li>
 			<% else %>
 				<%# ユーザーの画像を入れる． %>
-				<li><a href="/calendar">Calendar</a></li>
 				<li><a href="/signout" onclick="signOut();">Sign out</a></li>
-				<li><a href="/mypage"><img src="<%= current_user.image_url %>"></a></li>
+				<li><a href="/mypage" class="user-image-wrapper"><img src="<%= current_user.image_url %>" class="user-image"></a></li>
 			<% end %>
 		</ul>
 	</nav>
