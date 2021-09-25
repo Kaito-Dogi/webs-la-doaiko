@@ -34,7 +34,7 @@ helpers do
     # def credentials_for(scope, user_id)
         authorizer = Google::Auth::WebUserAuthorizer.new(settings.client_id, scope, settings.token_store, '/oauth2callback')
         token_key = session[:token_key]
-        redirect LOGIN_URL if token_key?
+        redirect LOGIN_URL if token_key.nil?
         credentials = authorizer.get_credentials(token_key, request)
         if credentials.nil?
             redirect authorizer.get_authorization_url(login_hint: token_key, request: request)

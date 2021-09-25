@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<% if false %>
 <html lang="ja">
 <head>
 	<meta charset="UTF-8">
 	<title>DOAIKO</title>
 	<link rel="stylesheet" href="/assets/css/index.css">
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<meta name="google-signin-client_id" content="<%= @client_id %>">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <body>
 	<nav>
 		<ul>
@@ -16,47 +18,21 @@
 			<% else %>
 				<%# ユーザーの画像を入れる． %>
 				<li><a href="/mypage">My page</a></li>
-				<li><a href="/signout">Sign out</a></li>
+				<li><a href="/calendar">Calendar</a></li>
+				<li><a href="/signout" onclick="signOut();">Sign out</a></li>
 			<% end %>
 		</ul>
 	</nav>
 	<main>
 		<%= yield %>
 	</main>
+	<script>
+	  function signOut() {
+	    var auth2 = gapi.auth2.getAuthInstance();
+	    auth2.signOut().then(function () {
+	      console.log('User signed out.');
+	    });
+	  }
+  </script>
 </body>
 </html>
-<% else %>
-<html>
-  <head>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="<%= @client_id %>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style type="text/css">
-      .navigation a {
-        padding: 10px;
-      }
-      .main {
-        padding: 10px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="navigation">
-      <a href="/">Home</a>
-      <a href="/calendar">Google Calendar Sample</a>
-      <a href="/signout" onclick="signOut();">Sign out</a>
-    </div>
-    <div class="main">
-      <%= yield %>
-    </div>
-    <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
-    </script>
-  </body>
-</html>
-<% end %>
