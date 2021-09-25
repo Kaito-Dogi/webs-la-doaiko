@@ -67,7 +67,7 @@ get '/' do
     #     @user_courses = @user.user_courses
     #     @user_classrooms = @user.user_classrooms
     # end
-    erb :signin
+    erb :home
 end
 
 get '/signup' do
@@ -196,16 +196,6 @@ get('/calendar') do
         time_min: Time.now.iso8601,
         # time_max: (Time.now + 60*60*24).iso8601
     )
-    # calendar.authorization = credentials_for(Google::Apis::CalendarV3::AUTH_CALENDAR, "106475151483464901274")
-    # puts calendar.authorization
-    # @result2 = calendar.list_events(
-    #     calendar_id,
-    #     max_results: 100,
-    #     single_events: true,
-    #     order_by: 'startTime',
-    #     time_min: Time.now.iso8601,
-    #     # time_max: (Time.now + 60*60*24).iso8601
-    # )
     erb :calendar
 end
 
