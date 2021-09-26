@@ -77,7 +77,6 @@ get '/' do
     #     @user_courses = @user.user_courses
     #     @user_classrooms = @user.user_classrooms
     # end
-    # erb :home
     erb :calendar
 end
 

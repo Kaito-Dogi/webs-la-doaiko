@@ -1,58 +1,96 @@
-<section>
-  <form action="/search" method="post">
-    <input name="date" type="date" value="<%= Date.today %>" placeholder="<%= Date.today %>" required/>
-    <div class="select-container">
-      <select name="area">
-        <option value="all">全ての地域</option>
-        <% areas.each do |area| %>
-          <% if area.name != "オンライン" %>
-            <option value="<%= area.lowercase_name %>"><%= area.name %></option>
+<% if session[:token_key].nil? %>
+  <div id="my-signin2"></div>
+  <script>
+    function onSignIn(googleUser) {
+      var id_token = googleUser.getAuthResponse().id_token;
+      var formData = new FormData();
+      formData.append('id_token', id_token);
+      var req = new XMLHttpRequest();
+      req.addEventListener("load", function() {
+        console.log("Log in successful");
+      });
+      req.addEventListener("error", function() {
+        console.log("Log in failed");
+      });
+      req.open("POST", "/signin");
+      req.send(formData);
+    }
+
+    function onFailure(error) {
+      console.log(error);
+    }
+
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 260,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        // 'accesstype': 'offline',
+        'onsuccess': onSignIn,
+        'onfailure': onFailure
+      });
+    }
+  </script>
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<% else %>
+  <section>
+    <form action="/search" method="post">
+      <input name="date" type="date" value="<%= Date.today %>" placeholder="<%= Date.today %>" required/>
+      <div class="select-container">
+        <select name="area">
+          <option value="all">全ての地域</option>
+          <% areas.each do |area| %>
+            <% if area.name != "オンライン" %>
+              <option value="<%= area.lowercase_name %>"><%= area.name %></option>
+            <% end %>
           <% end %>
-        <% end %>
-      </select>
-    </div>
-    <% courses.each do |course| %>
-      <input type="checkbox" name="<%= course.lowercase_name %>" value="<%= course.id %>" id="<%= course.lowercase_name %>">
-      <label for="<%= course.lowercase_name %>" class="course-chips" id="<%= course.lowercase_name %>-chip"><%= course.popular_name %></label>
-    <% end %>
-    <button type="submit">検索</button>
-  </form>
-  <div class="calendar-wrapper">
-      <div class="calendar-caption">
-        <p>Mentor</p>
-        <p>9:00</p>
-        <p>10:00</p>
-        <p>11:00</p>
-        <p>12:00</p>
-        <p>13:00</p>
-        <p>14:00</p>
-        <p>15:00</p>
-        <p>16:00</p>
-        <p>17:00</p>
-        <p>18:00</p>
-        <p>19:00</p>
-        <p>20:00</p>
-        <p>21:00</p>
-        <p>22:00</p>
-        <p>23:00</p>
-        <p>24:00</p>
+        </select>
       </div>
-    <% (0..9).each do |i| %>
-      <div class="calendar-row">
-        <div class="user-wrapper">
-          <a href="/mypage" class="user-image-container"><img src="<%= current_user.image_url %>" class="user-image"></a>
-          <div class="user-data-container">
-            <p class="user-name">どぎー</p>
-            <p class="user-term">関東11期</p>
-            <p class="user-courses">Android, WebS, WebD</p>
+      <% courses.each do |course| %>
+        <input type="checkbox" name="<%= course.lowercase_name %>" value="<%= course.id %>" id="<%= course.lowercase_name %>">
+        <label for="<%= course.lowercase_name %>" class="course-chips" id="<%= course.lowercase_name %>-chip"><%= course.popular_name %></label>
+      <% end %>
+      <button type="submit">検索</button>
+    </form>
+    <div class="calendar-wrapper">
+        <div class="calendar-caption">
+          <p>Mentor</p>
+          <p>9:00</p>
+          <p>10:00</p>
+          <p>11:00</p>
+          <p>12:00</p>
+          <p>13:00</p>
+          <p>14:00</p>
+          <p>15:00</p>
+          <p>16:00</p>
+          <p>17:00</p>
+          <p>18:00</p>
+          <p>19:00</p>
+          <p>20:00</p>
+          <p>21:00</p>
+          <p>22:00</p>
+          <p>23:00</p>
+          <p>24:00</p>
+        </div>
+      <% (0..9).each do |i| %>
+        <div class="calendar-row">
+          <div class="user-wrapper">
+            <a href="/mypage" class="user-image-container"><img src="<%= current_user.image_url %>" class="user-image"></a>
+            <div class="user-data-container">
+              <p class="user-name">どぎー</p>
+              <p class="user-term">関東11期</p>
+              <p class="user-courses">Android, WebS, WebD</p>
+            </div>
+          </div>
+          <div class="schedule-wrapper">
+            <% (9..24).each do |h| %>
+              <div class="hour-box"></div>
+            <% end %>
           </div>
         </div>
-        <div class="schedule-wrapper">
-          <% (9..24).each do |h| %>
-            <div class="hour-box"></div>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</section>
+      <% end %>
+    </div>
+  </section>
+<% end %>
