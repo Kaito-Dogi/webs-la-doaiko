@@ -52,7 +52,7 @@ helpers do
 
     # 現在のログインユーザーを取得．
     def current_user
-        User.find(session[:user_id])
+        User.find_by(token_key: session[:token_key])
     end
 
     # 全ての地域を取得．
@@ -179,7 +179,6 @@ post '/signin' do
         end
         # ログインユーザーの情報をセッションに保存．
         session[:token_key] = user.token_key
-        session[:user_id] = user.id
 
         puts "==================== current user ===================="
         puts user.token_key
