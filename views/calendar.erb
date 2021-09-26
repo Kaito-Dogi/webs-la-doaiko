@@ -1,5 +1,12 @@
 <% if session[:token_key].nil? %>
-  <div id="my-signin2"></div>
+  <section id="signin-section">
+    <div id="my-signin2"></div>
+    <p>
+      <span>お願い</span><br>
+      サインインしてもこの画面が表示されている場合は、<br>
+      リロードしてください。
+    </p>
+  </section>
   <script>
     function onSignIn(googleUser) {
       var id_token = googleUser.getAuthResponse().id_token;
