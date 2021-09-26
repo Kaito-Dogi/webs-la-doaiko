@@ -13,13 +13,14 @@
         <div class="user-wrapper">
           <a href="/mypage" class="user-image-container"><img src="<%= current_user.image_url %>" class="user-image"></a>
           <div class="user-data-container">
-            <p>どぎー</p>
-            <p>Android, WebS, WebD</p>
+            <p class="user-name">どぎー</p>
+            <p class="user-term">関東11期</p>
+            <p class="user-courses">Android, WebS, WebD</p>
           </div>
         </div>
         <div class="schedule-wrapper">
-          <% (9..23).each do |h| %>
-            <div class="one-hour-box"></div>
+          <% (9..24).each do |h| %>
+            <div class="hour-box"></div>
           <% end %>
         </div>
       </div>
