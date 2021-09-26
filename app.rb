@@ -50,41 +50,46 @@ helpers do
         url.sub(/s220/, sprintf('s%d', width))
     end
 
-    # ログインユーザーを取得．
+    # 現在のログインユーザーを取得．
     def current_user
         User.find(session[:user_id])
     end
 
-    # 地域を取得．
+    # 全ての地域を取得．
     def areas
         Area.all
     end
 
-    # コースを取得．
+    # 全てのコースを取得．
     def courses
         Course.all
+    end
+    
+    # 全てのクラスを取得．
+    def classrooms
+        Classroom.all
     end
 end
 
 get '/' do
-    @client_id = settings.client_id.id
-    @user_id = session[:token_key]
-    @user_email = session[:user_email]
-    puts "======================== #{@user_id} ========================"
-    puts "======================== #{@user_email} ========================"
-    # unless session[:token_key].nil?
-    #     @user = User.find(session[:token_key]) 
-    #     @user_courses = @user.user_courses
-    #     @user_classrooms = @user.user_classrooms
-    # end
+    puts "==================== current user ===================="
+    puts session[:token_key]
+    puts session[:email]
+    puts "==================== current user ===================="
     erb :calendar
 end
 
-get '/signup' do
-    @areas = Area.all
-    @classrooms = Classroom.all
-    @courses = Course.all
-    erb :signup, layout: nil
+get '/signout' do
+    session[:token_key] = nil
+    redirect '/'
+end
+
+get '/mypage' do
+    erb :mypage
+end
+
+post '/search' do
+    redirect '/'
 end
 
 post '/signup' do
@@ -151,11 +156,6 @@ post '/signup' do
     redirect '/'
 end
 
-get '/signin' do
-    erb :signin, layout: nil
-    # erb :home
-end
-
 post '/signin' do
     audience = settings.client_id.id
     validator = GoogleIDToken::Validator.new
@@ -212,13 +212,4 @@ end
 get('/oauth2callback') do
     target_url = Google::Auth::WebUserAuthorizer.handle_auth_callback_deferred(request)
     redirect target_url
-end
-
-get '/signout' do
-    session[:token_key] = nil
-    redirect '/'
-end
-
-get '/mypage' do
-    erb :mypage
 end
