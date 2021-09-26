@@ -14,11 +14,12 @@
 	<nav>
 		<ul>
 			<%# ロゴの画像を入れる． %>
-			<li class="title-logo"><a href="/">DOAIKO</a></li>
+			<li class="title-logo"><a href="/"><h1>DOAIKO</h1></a></li>
 			<% if session[:token_key].nil? %>
 			  <li><img src="./assets/img/default_icon.png" class="user-image"></a></li>
 			<% else %>
 				<%# ユーザーの画像を入れる． %>
+				<li><a href="/calendar">Calendar</a></li>
 				<li><a href="/signout" onclick="signOut();">Sign out</a></li>
 				<li><a href="/mypage" class="user-image-container"><img src="<%= current_user.image_url %>" class="user-image"></a></li>
 			<% end %>
