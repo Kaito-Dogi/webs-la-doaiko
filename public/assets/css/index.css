@@ -77,9 +77,47 @@ form {
 }
 
 input[type="date"] {
+    width: 176px;
+    padding: 7px 16px;
     margin-right: 16px;
     border: 1px solid skyblue;
     color: #666;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.select-container {
+    display: inline-block;
+    position: relative;
+}
+
+.select-container::after {
+    border-top: 2px solid #888;
+    border-left: 2px solid #888;
+    content: "";
+    position: absolute;
+    right: 34px;
+    top: 16px;
+    width: 6px;
+    height: 6px;
+    transform: translateY(-50%) rotate(-135deg);
+    pointer-events: none;
+}
+
+select {
+    width: 120px;
+    padding: 9px 16px;
+    margin-right: 16px;
+    border: 1px solid skyblue;
+    color: #666;
+    border-radius: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+select::-ms-expand {
+    display: none;
 }
 
 input[type="checkbox"] {
@@ -88,11 +126,11 @@ input[type="checkbox"] {
 
 .course-chips {
     padding: 8px 16px;
+    margin-right: 8px;
     border: 1px solid skyblue;
+    color: #666;
     border-radius: 24px;
     background-color: white;
-    margin-right: 8px;
-    color: #666;
     cursor: pointer;
 }
 

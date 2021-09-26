@@ -1,6 +1,16 @@
 <section>
   <form action="/search" method="post">
-    <label class="date-edit"><input name="date" type="date" value="2021/09/26" required/></label>
+    <input name="date" type="date" value="<%= Date.today %>" required/>
+    <div class="select-container">
+      <select name="area">
+        <option value="all">全ての地域</option>
+        <% areas.each do |area| %>
+          <% if area.name != "オンライン" %>
+            <option value="<%= area.lowercase_name %>"><%= area.name %></option>
+          <% end %>
+        <% end %>
+      </select>
+    </div>
     <% courses.each do |course| %>
       <input type="checkbox" name="<%= course.lowercase_name %>" value="<%= course.id %>" id="<%= course.lowercase_name %>">
       <label for="<%= course.lowercase_name %>" class="course-chips" id="<%= course.lowercase_name %>-chip"><%= course.popular_name %></label>

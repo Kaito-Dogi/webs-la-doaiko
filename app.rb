@@ -55,6 +55,11 @@ helpers do
         User.find(session[:user_id])
     end
 
+    # 地域を取得．
+    def areas
+        Area.all
+    end
+
     # コースを取得．
     def courses
         Course.all
