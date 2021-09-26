@@ -72,10 +72,14 @@ nav ul li a:hover {
 }
 
 /* calendar.erb */
+form {
+    text-align: center;
+}
+
 input[type="date"] {
     margin-right: 16px;
     border: 1px solid skyblue;
-    color: #555;
+    color: #666;
 }
 
 input[type="checkbox"] {
@@ -88,7 +92,7 @@ input[type="checkbox"] {
     border-radius: 24px;
     background-color: white;
     margin-right: 8px;
-    color: #555;
+    color: #666;
     cursor: pointer;
 }
 
@@ -100,7 +104,7 @@ button {
     padding: 6px 16px;
     border: 1px solid skyblue;
     border-radius: 4px;
-    color: #555;
+    color: #666;
     cursor: pointer
 }
 
