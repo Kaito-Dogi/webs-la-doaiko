@@ -35,7 +35,7 @@
   </script>
   <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 <% else %>
-  <section>
+  <section id="calendar-section">
     <form action="/search" method="post">
       <input name="date" type="date" value="<%= Date.today %>" placeholder="<%= Date.today %>" required/>
       <div class="select-container">
