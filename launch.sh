@@ -3,5 +3,5 @@
 # cd public/assets/css
 # sass index.scss:index.css --style expanded
 
-cd ../../../
+#cd ../../../
 ruby app.rb
