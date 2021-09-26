@@ -1,0 +1,57 @@
+nav {
+    height: 64px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: white;
+    margin-bottom: 32px;
+    border-radius: 16px;
+    position: relative;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    height: 64px;
+    margin-right: 24px;
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+}
+nav ul li a {
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    color: #444;
+}
+
+nav ul li a:hover {
+    /*何かしら*/
+}
+
+.title-logo {
+    position: absolute;
+    left: 24px;
+}
+
+.title-logo h1 {
+    font-size: 18px;
+    font-weight: 600; 
+}
+
+.user-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #ddd;
+    object-fit: cover;
+}
+
+.user-image-container {
+    width: 32px;
+    height: 32px;
+}

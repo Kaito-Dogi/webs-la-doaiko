@@ -1,0 +1,8 @@
+#mypage-section {
+    width: 66%;
+    max-width: 950px;
+    margin: 32px auto 0;
+    border-radius: 24px;
+    background-color: white;
+    padding: 32px;
+}
