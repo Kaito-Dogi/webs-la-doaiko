@@ -115,6 +115,32 @@ button {
     border-radius: 24px;
     background-color: white;
     padding: 32px;
+    overflow-x: scroll;
+}
+
+.calendar-caption {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.calendar-caption p {
+    width: 64px;
+    font-size: 14px;
+    color: #888;
+}
+
+.calendar-caption p:first-child {
+    width: 250px;
+    padding-left: 8px;
+    margin-left: 32px;
+}
+
+.calendar-caption p:last-child {
+    width: 32px;
+    margin-right: 32px;
 }
 
 .calendar-row {
