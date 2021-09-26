@@ -72,6 +72,8 @@ helpers do
 end
 
 get '/' do
+    # Sign inボタンの表示に必要．
+    @client_id = settings.client_id.id
     puts "==================== current user ===================="
     puts session[:token_key]
     puts session[:email]
