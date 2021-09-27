@@ -5,7 +5,7 @@
         <input type="text" name="nickname" placeholder="メンター名" value="<%= @user.nickname %>"required><br>
         <% areas.each do |area| %>
             <% if area.name != "オンライン" %>
-                <input type="radio" name="area_id" value="<%= area.id %>" id="<%= area.lowercase_name %>">
+                <input type="radio" name="area_id" value="<%= area.id %>" id="<%= area.lowercase_name %>" <%= @user.area_id == area.id ? "checked" : "" %>>
                 <label for="<%= area.lowercase_name %>"><%= area.name %></label><br>
             <% end %>
         <% end %>
