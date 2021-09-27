@@ -77,6 +77,7 @@ get '/' do
     puts "==================== current user ===================="
     puts session[:token_key]
     puts "==================== current user ===================="
+    @user = current_user
     erb :calendar
 end
 
@@ -86,6 +87,7 @@ get '/signout' do
 end
 
 get '/mypage' do
+    @user = current_user
     erb :mypage
 end
 
