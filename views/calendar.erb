@@ -56,8 +56,8 @@
         </select>
       </div>
       <% courses.each do |course| %>
-        <input type="checkbox" name="<%= course.lowercase_name %>" value="<%= course.id %>" id="<%= course.lowercase_name %>">
-        <label for="<%= course.lowercase_name %>" class="course-chips" id="<%= course.lowercase_name %>-chip"><%= course.popular_name %></label>
+        <input type="checkbox" name="<%= course.lowercase_name %>" value="<%= course.id %>" class="course-checkbox" id="<%= course.lowercase_name %>-checkbox">
+        <label for="<%= course.lowercase_name %>-checkbox" class="course-chips" id="<%= course.lowercase_name %>-chips"><%= course.popular_name %></label>
       <% end %>
       <button type="submit">検索</button>
     </form>
@@ -100,4 +100,5 @@
       <% end %>
     </div>
   </section>
+  <script src="/assets/js/calendar.js" type="text/javascript"></script>
 <% end %>

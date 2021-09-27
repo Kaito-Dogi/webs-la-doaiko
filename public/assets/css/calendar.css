@@ -78,22 +78,43 @@ input[type="date"] {
     display: none;
 }
 
-input[type="checkbox"] {
+.course-checkbox {
     display: none;
 }
 
 .course-chips {
     padding: 8px 16px;
     margin-right: 8px;
-    border: 1px solid skyblue;
+    border: 1px solid;
     color: #666;
     border-radius: 24px;
     background-color: white;
     cursor: pointer;
 }
 
-#ca-chip {
+#iphone-chips {
+    border-color: #FFD166;
+}
+
+#android-chips {
+    border-color: #3DDC84;
+}
+
+#unity-chips {
+    border-color: #7B4B94;
+}
+
+#webd-chips {
+    border-color: #5AA9E6;
+}
+
+#webs-chips {
+    border-color: #CC342D;
+}
+
+#ca-chips {
     margin-right: 16px;
+    border-color: #FFB2E6;
 }
 
 #calendar-section button {
