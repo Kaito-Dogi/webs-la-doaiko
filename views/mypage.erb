@@ -2,25 +2,26 @@
 <section id="mypage-section">
     <form action="/update" method="post">
         <h2>プロフィール</h2>
-        <input type="text" name="nickname" placeholder="メンター名" required><br>
+        <input type="text" name="nickname" placeholder="メンター名" value="<%= @user.nickname %>"required><br>
         <% areas.each do |area| %>
             <% if area.name != "オンライン" %>
                 <input type="radio" name="area_id" value="<%= area.id %>" id="<%= area.lowercase_name %>">
                 <label for="<%= area.lowercase_name %>"><%= area.name %></label><br>
             <% end %>
         <% end %>
-        <input type="number" name="term" placeholder="期" min="1" max="13"><br>
+        <input type="number" name="term" placeholder="期" value="<%= @user.term %>" min="1" max="13"><br>
         <input type="file" name="file" accept="image/*"><br>
 
         <h2>担当コース</h2>
         <% courses.each do |course| %>
-            <input type="checkbox" name="course_ids[]" value="<%= course.id %>" id="<%= course.lowercase_name %>">
+            <input type="checkbox" name="course_ids[]" value="<%= course.id %>" id="<%= course.lowercase_name %>" <%= UserCourse.exists?(user_id: @user.id, course_id: course.id) ? "checked" : "" %>>
             <label for="<%= course.lowercase_name %>"><%= course.official_name %></label><br>
+            <% puts UserCourse.exists?(user_id: @user.id, course_id: course.id) %>
         <% end %>
 
         <h2>所属校舎</h2>
         <% classrooms.each do |classroom| %>
-            <input type="checkbox" name="classroom_ids[]" value="<%= classroom.id %>" id="<%= classroom.lowercase_name %>">
+            <input type="checkbox" name="classroom_ids[]" value="<%= classroom.id %>" id="<%= classroom.lowercase_name %>" <%= UserClassroom.exists?(user_id: @user.id, classroom_id: classroom.id) ? "checked" : "" %>>
             <label for="<%= classroom.lowercase_name %>"><%= classroom.schedule.dayOfWeek + classroom.schedule.kind + classroom.place.name %></label><br>
         <% end %>
 
