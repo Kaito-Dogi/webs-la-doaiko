@@ -76,7 +76,6 @@ get '/' do
     @client_id = settings.client_id.id
     puts "==================== current user ===================="
     puts session[:token_key]
-    puts session[:email]
     puts "==================== current user ===================="
     erb :calendar
 end
