@@ -10,46 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_18_182656) do
+ActiveRecord::Schema.define(version: 2021_09_18_173429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "areas", force: :cascade do |t|
     t.string "name"
-    t.string "lowercase_name"
+    t.string "en_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "classrooms", force: :cascade do |t|
-    t.string "lowercase_name"
-    t.integer "area_id"
-    t.integer "place_id"
-    t.integer "schedule_id"
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string "official_name"
-    t.string "popular_name"
-    t.string "lowercase_name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "places", force: :cascade do |t|
     t.string "name"
-    t.string "lowercase_name"
-    t.integer "area_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "schedules", force: :cascade do |t|
-    t.string "kind"
-    t.string "dayOfWeek"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -64,7 +44,6 @@ ActiveRecord::Schema.define(version: 2021_09_18_182656) do
   create_table "user_courses", force: :cascade do |t|
     t.integer "user_id"
     t.integer "course_id"
-    t.integer "level"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

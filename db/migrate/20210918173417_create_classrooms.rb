@@ -1,10 +1,7 @@
 class CreateClassrooms < ActiveRecord::Migration[6.1]
   def change
     create_table :classrooms do |t|
-      t.string :lowercase_name
-      t.integer :area_id
-      t.integer :place_id
-      t.integer :schedule_id
+      t.string :name
       t.timestamps null: false
     end
   end

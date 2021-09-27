@@ -50,14 +50,14 @@
           <option value="all">全ての地域</option>
           <% areas.each do |area| %>
             <% if area.name != "オンライン" %>
-              <option value="<%= area.lowercase_name %>"><%= area.name %></option>
+              <option value="<%= area.en_name.downcase %>"><%= area.name %></option>
             <% end %>
           <% end %>
         </select>
       </div>
       <% courses.each do |course| %>
-        <input type="checkbox" name="<%= course.lowercase_name %>" value="<%= course.id %>" class="course-checkbox" id="<%= course.lowercase_name %>-checkbox">
-        <label for="<%= course.lowercase_name %>-checkbox" class="course-chips" id="<%= course.lowercase_name %>-chips"><%= course.popular_name %></label>
+        <input type="checkbox" name="courses[]" value="<%= course.id %>" class="course-checkbox" id="<%= course.name.downcase %>-checkbox">
+        <label for="<%= course.name.downcase %>-checkbox" class="course-chips" id="<%= course.name.downcase %>-chips"><%= course.name %></label>
       <% end %>
       <button type="submit">検索</button>
     </form>

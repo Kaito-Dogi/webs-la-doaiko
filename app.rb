@@ -107,8 +107,7 @@ post '/update' do
     course_ids.each do |course_id|
         UserCourse.create!(
             user_id: user.id,
-            course_id: course_id,
-            level: 1
+            course_id: course_id
         )
     end
 

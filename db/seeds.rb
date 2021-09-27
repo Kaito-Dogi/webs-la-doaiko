@@ -2,100 +2,19 @@ Area.create!(
     [
         {
             name: "関東",
-            lowercase_name: "east"
+            en_name: "East"
         },
         {
             name: "関西",
-            lowercase_name: "west"
+            en_name: "West"
         },
         {
             name: "東海",
-            lowercase_name: "central"
+            en_name: "Central"
         },
         {
             name: "オンライン",
-            lowercase_name: "online"
-        },
-    ]
-)
-
-Place.create!(
-    [
-        {
-            name: "白金高輪",
-            lowercase_name: "shirokane",
-            area_id: 1
-        },
-        {
-            name: "秋葉原",
-            lowercase_name: "akihabara",
-            area_id: 1
-        },
-        {
-            name: "池袋",
-            lowercase_name: "ikebukuro",
-            area_id: 1
-        },
-        {
-            name: "横浜",
-            lowercase_name: "yokohama",
-            area_id: 1
-        },
-        {
-            name: "大阪",
-            lowercase_name: "osaka",
-            area_id: 2
-        },
-        {
-            name: "名古屋",
-            lowercase_name: "nagoya",
-            area_id: 3
-        },
-        {
-            name: "オンライン",
-            lowercase_name: "online",
-            area_id: 4
-        },
-    ]
-)
-
-Schedule.create!(
-    [
-        {
-            kind: "毎週",
-            dayOfWeek: "火曜"
-        },
-        {
-            kind: "毎週",
-            dayOfWeek: "水曜"
-        },
-        {
-            kind: "毎週",
-            dayOfWeek: "木曜"
-        },
-        {
-            kind: "毎週",
-            dayOfWeek: "金曜"
-        },
-        {
-            kind: "毎週",
-            dayOfWeek: "土曜"
-        },
-        {
-            kind: "A",
-            dayOfWeek: "土曜"
-        },
-        {
-            kind: "A",
-            dayOfWeek: "日曜"
-        },
-        {
-            kind: "B",
-            dayOfWeek: "土曜"
-        },
-        {
-            kind: "B",
-            dayOfWeek: "日曜"
+            en_name: "Online"
         },
     ]
 )
@@ -103,165 +22,90 @@ Schedule.create!(
 Classroom.create!(
     [
         {
-            lowercase_name: "tue_weekly_shirokane",
-            area_id: 1,
-            place_id: 1,
-            schedule_id: 1
+            name: "火曜白金"
         },
         {
-            lowercase_name: "wed_weekly_shirokane",
-            area_id: 1,
-            place_id: 1,
-            schedule_id: 2
+            name: "水曜白金"
         },
         {
-            lowercase_name: "thu_weekly_shirokane",
-            area_id: 1,
-            place_id: 1,
-            schedule_id: 3
+            name: "木曜白金"
         },
         {
-            lowercase_name: "fri_weekly_shirokane",
-            area_id: 1,
-            place_id: 1,
-            schedule_id: 4
+            name: "金曜白金"
         },
         {
-            lowercase_name: "sat_weekly_shirokane",
-            area_id: 1,
-            place_id: 1,
-            schedule_id: 5
+            name: "土曜白金"
         },
         {
-            lowercase_name: "sun_a_shirokane",
-            area_id: 1,
-            place_id: 1,
-            schedule_id: 7
+            name: "日A白金"
         },
         {
-            lowercase_name: "sat_b_shirokane",
-            area_id: 1,
-            place_id: 1,
-            schedule_id: 8
+            name: "土A白金"
         },
         {
-            lowercase_name: "sun_b_shirokane",
-            area_id: 1,
-            place_id: 1,
-            schedule_id: 9
+            name: "日B白金"
         },
         {
-            lowercase_name: "sun_b_akihabara",
-            area_id: 1,
-            place_id: 2,
-            schedule_id: 9
+            name: "日B秋葉原"
         },
         {
-            lowercase_name: "sun_b_ikebukuro",
-            area_id: 1,
-            place_id: 3,
-            schedule_id: 9
+            name: "日B池袋"
         },
         {
-            lowercase_name: "sat_a_yokohama",
-            area_id: 1,
-            place_id: 4,
-            schedule_id: 6
+            name: "土A横浜"
         },
         {
-            lowercase_name: "sun_a_yokohama",
-            area_id: 1,
-            place_id: 4,
-            schedule_id: 7
+            name: "日A横浜"
         },
         {
-            lowercase_name: "fri_weekly_osaka",
-            area_id: 2,
-            place_id: 5,
-            schedule_id: 4
+            name: "金曜大阪"
         },
         {
-            lowercase_name: "sat_a_osaka",
-            area_id: 2,
-            place_id: 5,
-            schedule_id: 6
+            name: "土A大阪"
         },
         {
-            lowercase_name: "sun_a_osaka",
-            area_id: 2,
-            place_id: 5,
-            schedule_id: 7
+            name: "日A大阪"
         },
         {
-            lowercase_name: "sun_b_osaka",
-            area_id: 2,
-            place_id: 5,
-            schedule_id: 9
+            name: "日B大阪"
         },
         {
-            lowercase_name: "sat_a_nagoya",
-            area_id: 3,
-            place_id: 6,
-            schedule_id: 6
+            name: "土A名古屋"
         },
         {
-            lowercase_name: "sun_a_nagoya",
-            area_id: 3,
-            place_id: 6,
-            schedule_id: 7
+            name: "日A名古屋"
         },
         {
-            lowercase_name: "fri_weekly_online",
-            area_id: 4,
-            place_id: 7,
-            schedule_id: 4
+            name: "金曜オンライン"
         },
         {
-            lowercase_name: "sat_weekly_online",
-            area_id: 4,
-            place_id: 7,
-            schedule_id: 5
+            name: "土曜オンライン"
         },
         {
-            lowercase_name: "sun_b_online",
-            area_id: 4,
-            place_id: 7,
-            schedule_id: 9
-        },
+            name: "土Bオンライン"
+        }
     ]
 )
 
 Course.create!(
     [
         {
-            official_name: "iPhoneアプリプログラミングコース",
-            popular_name: "iPhone",
-            lowercase_name: "iphone"
+            name: "iPhone"
         },
         {
-            official_name: "Androidアプリプログラミングコース",
-            popular_name: "Android",
-            lowercase_name: "android"
+            name: "Android"
         },
         {
-            official_name: "Unityゲームプログラミングコース",
-            popular_name: "Unity",
-            lowercase_name: "unity"
+            name: "Unity"
         },
         {
-            official_name: "Webデザインコース",
-            popular_name: "WebD",
-            lowercase_name: "webd"
+            name: "WebD"
         },
         {
-            official_name: "Webサービスプログラミングコース",
-            popular_name: "WebS",
-            lowercase_name: "webs"
+            name: "WebS"
         },
         {
-            official_name: "クラスアシスタント",
-            popular_name: "CA",
-            lowercase_name: "ca"
-        },
+            name: "CA"
+        }
     ]
 )
