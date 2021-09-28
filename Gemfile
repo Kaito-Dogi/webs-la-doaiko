@@ -15,7 +15,6 @@ gem 'googleauth', '~> 0.17.1'
 gem 'google-api-client', '~> 0.53.0'
 gem 'google-apis-calendar_v3', '~> 0.12.0'
 gem 'google-id-token', '~> 1.4', '>= 1.4.2'
-gem 'sassc', '~> 2.4'
 
 group :development do
   gem 'debase'

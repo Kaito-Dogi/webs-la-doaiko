@@ -49,7 +49,6 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     fastri (0.3.1.1)
-    ffi (1.15.4)
     gems (1.2.0)
     google-api-client (0.53.0)
       google-apis-core (~> 0.1)
@@ -146,8 +145,6 @@ GEM
       rake (>= 0.8.1)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
-    sassc (2.4.0)
-      ffi (~> 1.9)
     signet (0.16.0)
       addressable (~> 2.8)
       faraday (>= 0.17.3, < 2.0)
@@ -201,7 +198,6 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   ruby-debug-ide
-  sassc (~> 2.4)
   sinatra (~> 2.1)
   sinatra-activerecord (~> 2.0)
   sinatra-contrib (~> 2.1)
