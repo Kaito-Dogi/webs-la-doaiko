@@ -26,23 +26,18 @@ configure do
         ENV['GOOGLE_CLIENT_ID'],
         ENV['GOOGLE_CLIENT_SECRET']
     )
+    set :scope, Google::Apis::CalendarV3::AUTH_CALENDAR
     set :token_store, Google::Auth::Stores::FileTokenStore.new(file: "token.yaml")
 end
 
 helpers do
-    def credentials_for(scope)
-    # def credentials_for(scope, user_id)
-        authorizer = Google::Auth::WebUserAuthorizer.new(settings.client_id, scope, settings.token_store, '/oauth2callback')
-        token_key = session[:token_key]
-        redirect LOGIN_URL if token_key.nil?
+    def credentials_for(token_key)
+        authorizer = Google::Auth::WebUserAuthorizer.new(settings.client_id, settings.scope, settings.token_store, '/oauth2callback')
+        redirect LOGIN_URL if session[:token_key].nil?
         credentials = authorizer.get_credentials(token_key, request)
         if credentials.nil?
             redirect authorizer.get_authorization_url(login_hint: token_key, request: request)
         end
-
-        puts credentials.access_token
-        puts credentials.refresh_token
-
         credentials
     end
     
@@ -163,7 +158,7 @@ end
 
 get('/calendar') do
     calendar = Google::Apis::CalendarV3::CalendarService.new
-    calendar.authorization = credentials_for(Google::Apis::CalendarV3::AUTH_CALENDAR)
+    calendar.authorization = credentials_for("103974833804776463435")
     calendar_id = 'primary'
     @result = calendar.list_events(
         calendar_id,
