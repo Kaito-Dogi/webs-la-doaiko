@@ -86,39 +86,6 @@ get '/mypage' do
     erb :mypage
 end
 
-post '/search' do
-    redirect '/'
-end
-
-post '/update' do
-    user = current_user
-
-    user.nickname = params[:nickname]
-    user.area_id = params[:area_id]
-    user.term = params[:term]
-
-    user.courses.destroy_all
-    course_ids = params[:course_ids]
-    course_ids.each do |course_id|
-        UserCourse.create!(
-            user_id: user.id,
-            course_id: course_id
-        )
-    end
-
-    user.classrooms.destroy_all
-    classroom_ids = params[:classroom_ids]
-    classroom_ids.each do |classroom_id|
-        UserClassroom.create!(
-            user_id: user.id,
-            classroom_id: classroom_id
-        )
-    end
-
-    user.save!
-    redirect '/'
-end
-
 post '/signin' do
     audience = settings.client_id.id
     validator = GoogleIDToken::Validator.new
@@ -154,6 +121,56 @@ post '/signin' do
         logger.info('No valid identity token present')
         401
     end
+end
+
+post '/update' do
+    user = current_user
+
+    user.nickname = params[:nickname]
+    user.area_id = params[:area_id]
+    user.term = params[:term]
+
+    user.courses.destroy_all
+    course_ids = params[:course_ids]
+    course_ids.each do |course_id|
+        UserCourse.create!(
+            user_id: user.id,
+            course_id: course_id
+        )
+    end
+
+    user.classrooms.destroy_all
+    classroom_ids = params[:classroom_ids]
+    classroom_ids.each do |classroom_id|
+        UserClassroom.create!(
+            user_id: user.id,
+            classroom_id: classroom_id
+        )
+    end
+
+    user.save!
+    redirect '/'
+end
+
+post '/search' do
+    @user = current_user
+
+    # puts "=============================== /search start ==================================="
+    # puts Course.find(params[:courses][0]).name
+    # puts Course.find(params[:courses][1]).name
+    # puts "0 -> 1の場合"
+    # @users = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][0]).merge(UserCourse.where(course_id: params[:courses][1])))
+    # @users.each do |user| puts user.nickname end
+    # puts "1 -> 0の場合"
+    # @users2 = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][1]).merge(UserCourse.where(course_id: params[:courses][0])))
+    # @users2.each do |user| puts user.nickname end
+    # puts "=============================== /search  end  ==================================="
+
+    # 地域で絞り込み
+    @users = params[:area_id] == "-1" ? User.all : User.where(area_id: params[:area_id])
+    @users.each do |user| puts user.nickname end
+
+    erb :calendar
 end
 
 get('/calendar') do
