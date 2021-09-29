@@ -73,6 +73,10 @@ get '/' do
     puts session[:token_key]
     puts "==================== current user ===================="
     @user = current_user
+
+    if params[:area_id].nil?
+        @users = User.all
+    end
     erb :calendar
 end
 

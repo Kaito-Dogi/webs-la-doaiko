@@ -62,41 +62,49 @@
       <button type="submit">検索</button>
     </form>
     <div class="calendar-wrapper">
-        <div class="calendar-caption">
-          <p>Mentor</p>
-          <p>9:00</p>
-          <p>10:00</p>
-          <p>11:00</p>
-          <p>12:00</p>
-          <p>13:00</p>
-          <p>14:00</p>
-          <p>15:00</p>
-          <p>16:00</p>
-          <p>17:00</p>
-          <p>18:00</p>
-          <p>19:00</p>
-          <p>20:00</p>
-          <p>21:00</p>
-          <p>22:00</p>
-          <p>23:00</p>
-          <p>24:00</p>
-        </div>
-      <% (0..9).each do |i| %>
-        <div class="calendar-row">
-          <div class="user-wrapper">
-            <a href="/mypage" class="user-image-container"><img src="<%= @user.image_url %>" class="user-image"></a>
-            <div class="user-data-container">
-              <p class="user-name">どぎー</p>
-              <p class="user-term">関東11期</p>
-              <p class="user-courses">Android, WebS, WebD</p>
+      <div class="calendar-caption">
+        <p>Mentor</p>
+        <p>9:00</p>
+        <p>10:00</p>
+        <p>11:00</p>
+        <p>12:00</p>
+        <p>13:00</p>
+        <p>14:00</p>
+        <p>15:00</p>
+        <p>16:00</p>
+        <p>17:00</p>
+        <p>18:00</p>
+        <p>19:00</p>
+        <p>20:00</p>
+        <p>21:00</p>
+        <p>22:00</p>
+        <p>23:00</p>
+        <p>24:00</p>
+      </div>
+      <% if @users.exists? %>
+        <% @users.each do |user| %>
+          <div class="calendar-row">
+            <div class="user-wrapper">
+              <a href="/mypage/<%= user.id %>" class="user-image-container"><img src="<%= user.image_url %>" class="user-image"></a>
+              <div class="user-data-container">
+                <p class="user-name"><%= user.nickname || user.name %></p>
+                <p class="user-term"><%= user.area.name %><%= "#{user.term}期" %></p>
+                <p class="user-courses">
+                  <% user.courses do |course| %>
+                    <%= "#{course.name}, " %>
+                  <% end %>
+                </p>
+              </div>
+            </div>
+            <div class="schedule-wrapper">
+              <% (9..24).each do |h| %>
+                <div class="hour-box"></div>
+              <% end %>
             </div>
           </div>
-          <div class="schedule-wrapper">
-            <% (9..24).each do |h| %>
-              <div class="hour-box"></div>
-            <% end %>
-          </div>
-        </div>
+        <% end %>
+      <% else %>
+        <p id="nobody-message">該当するメンターがいません。</p>
       <% end %>
     </div>
   </section>

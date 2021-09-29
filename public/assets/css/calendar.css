@@ -225,3 +225,11 @@ input[type="date"] {
 .calendar-row:last-child .hour-box {
     border-bottom: 2px solid #f1f2f5;
 }
+
+#nobody-message {
+    text-align: center;
+    font-size: 18px;
+    color: #444;
+    padding-top: 32px;
+    line-height: 32px;
+}
