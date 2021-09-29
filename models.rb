@@ -15,23 +15,9 @@ end
 
 class Area < ActiveRecord::Base
     has_many :users
-    has_many :places
-    has_many :classrooms
-end
-
-class Place < ActiveRecord::Base
-    belongs_to :area
-    has_many :classrooms
-end
-
-class Schedule < ActiveRecord::Base
-    has_many :classrooms
 end
 
 class Classroom < ActiveRecord::Base
-    belongs_to :area
-    belongs_to :place
-    belongs_to :schedule
     has_many :user_classrooms
     has_many :users, through: :user_classrooms
 end
