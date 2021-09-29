@@ -87,7 +87,7 @@
             <div class="user-wrapper">
               <a href="/mypage/<%= user.id %>" class="user-image-container"><img src="<%= user.image_url %>" class="user-image"></a>
               <div class="user-data-container">
-                <p class="user-name"><%= user.nickname || user.name %></p>
+                <p class="user-name"><%= user.nickname %></p>
                 <p class="user-term"><%= user.area.name %><%= "#{user.term}期" %></p>
                 <p class="user-courses">
                   <% user.courses do |course| %>

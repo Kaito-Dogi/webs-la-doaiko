@@ -94,7 +94,7 @@ end
 get '/mypage/:id' do
     @current_user = current_user
     @owner = User.find(params[:id])
-    @can_edit = @user == @current_user
+    @can_edit = @owner == @current_user
     erb :mypage
 end
 

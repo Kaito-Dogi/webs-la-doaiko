@@ -2,7 +2,7 @@
 <section id="mypage-section">
     <form action="/update" method="post">
         <h2>プロフィール</h2>
-        <input type="text" name="nickname" placeholder="メンター名" value="<%= @owner.nickname %>" required <%= @can_edit ? "" : "readonly" %>><br>
+        <input type="text" name="nickname" placeholder="メンター名" value="<%= @owner.nickname %>" <%= @can_edit ? "" : "readonly" %> required><br>
         <select name="area_id">
           <% areas.each do |area| %>
             <% if area.name != "オンライン" %>
@@ -10,7 +10,7 @@
             <% end %>
           <% end %>
         </select>
-        <input type="number" name="term" placeholder="期" value="<%= @owner.term %>" min="1" max="13" <%= @can_edit ? "" : "readonly" %>><br>
+        <input type="number" name="term" placeholder="期" value="<%= @owner.term %>" min="1" max="13" <%= @can_edit ? "" : "readonly" %> required><br>
         <input type="file" name="file" accept="image/*" style="<%= @can_edit ? "" : "display:none;" %>"><br>
 
         <h2>担当コース</h2>
