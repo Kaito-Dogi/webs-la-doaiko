@@ -1,4 +1,4 @@
-const courseCheckboxs = document.getElementsByClassName("course-checkbox");
+const courseCheckboxes = document.getElementsByClassName("course-checkbox");
 const courseLabels = document.getElementsByClassName("course-chips");
 const courseColorCodes = [
   "#FFD166",
@@ -19,6 +19,6 @@ const switchChipsStyle = (checkbox, label, colorCode) => {
   }
 };
 
-for (let i = 0; i < courseCheckboxs.length; i++) {
-  courseLabels[i].addEventListener('click', () => switchChipsStyle(courseCheckboxs[i], courseLabels[i], courseColorCodes[i]));
+for (let i = 0; i < courseCheckboxes.length; i++) {
+  courseLabels[i].addEventListener('click', () => switchChipsStyle(courseCheckboxes[i], courseLabels[i], courseColorCodes[i]));
 }
