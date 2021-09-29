@@ -66,13 +66,19 @@ helpers do
     end
 end
 
+# 初回ログイン時にマイページに遷移する．
+before '/' do
+    user = current_user
+    redirect "/mypage/#{user.id}" if current_user && current_user.nickname.nil?
+end
+
 get '/' do
     # Sign inボタンの表示に必要．
     @client_id = settings.client_id.id
     puts "==================== current user ===================="
     puts session[:token_key]
     puts "==================== current user ===================="
-    @user = current_user
+    @current_user = current_user
 
     if params[:area_id].nil?
         @users = User.all
@@ -85,8 +91,10 @@ get '/signout' do
     redirect '/'
 end
 
-get '/mypage' do
-    @user = current_user
+get '/mypage/:id' do
+    @current_user = current_user
+    @owner = User.find(params[:id])
+    @can_edit = @user == @current_user
     erb :mypage
 end
 
@@ -157,7 +165,7 @@ post '/update' do
 end
 
 post '/search' do
-    @user = current_user
+    @current_user = current_user
 
     # puts "=============================== /search start ==================================="
     # puts Course.find(params[:courses][0]).name
@@ -189,6 +197,13 @@ get('/calendar') do
         time_min: Time.now.iso8601,
         # time_max: (Time.now + 60*60*24).iso8601
     )
+    @result.items.each do |item|
+        puts item.start.date_time || item.start.date
+        puts item.start.date.class
+        # puts item.end.date_time || item.end.date
+        # puts item.end.date_time - item.start.date_time || item.start.date - item.end.date
+    end
+    @current_user = current_user
     erb :calendar
 end
 

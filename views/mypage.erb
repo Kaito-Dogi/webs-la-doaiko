@@ -2,29 +2,29 @@
 <section id="mypage-section">
     <form action="/update" method="post">
         <h2>プロフィール</h2>
-        <input type="text" name="nickname" placeholder="メンター名" value="<%= @user.nickname %>" required><br>
+        <input type="text" name="nickname" placeholder="メンター名" value="<%= @owner.nickname %>" required <%= @can_edit ? "" : "readonly" %>><br>
         <select name="area_id">
           <% areas.each do |area| %>
             <% if area.name != "オンライン" %>
-              <option value="<%= area.id %>" <%= @user.area_id == area.id ? "selected" : "" %>><%= area.name %></option>
+              <option value="<%= area.id %>" <%= @owner.area_id == area.id ? "selected" : "" %> <%= @can_edit ? "" : "disabled" %>><%= area.name %></option>
             <% end %>
           <% end %>
         </select>
-        <input type="number" name="term" placeholder="期" value="<%= @user.term %>" min="1" max="13"><br>
-        <input type="file" name="file" accept="image/*"><br>
+        <input type="number" name="term" placeholder="期" value="<%= @owner.term %>" min="1" max="13" <%= @can_edit ? "" : "readonly" %>><br>
+        <input type="file" name="file" accept="image/*" style="<%= @can_edit ? "" : "display:none;" %>"><br>
 
         <h2>担当コース</h2>
         <% courses.each do |course| %>
-            <input type="checkbox" name="course_ids[]" value="<%= course.id %>" id="<%= course.name.downcase %>-checkbox" <%= UserCourse.exists?(user_id: @user.id, course_id: course.id) ? "checked" : "" %>>
+            <input type="checkbox" name="course_ids[]" value="<%= course.id %>" id="<%= course.name.downcase %>-checkbox" <%= UserCourse.exists?(user_id: @owner.id, course_id: course.id) ? "checked" : "" %> <%= @can_edit ? "" : "disabled" %>>
             <label for="<%= course.name.downcase %>-checkbox"><%= course.name %></label><br>
         <% end %>
 
         <h2>所属校舎</h2>
         <% classrooms.each do |classroom| %>
-            <input type="checkbox" name="classroom_ids[]" value="<%= classroom.id %>" id="classroom<%= classroom.id %>-checkbox" <%= UserClassroom.exists?(user_id: @user.id, classroom_id: classroom.id) ? "checked" : "" %>>
+            <input type="checkbox" name="classroom_ids[]" value="<%= classroom.id %>" id="classroom<%= classroom.id %>-checkbox" <%= UserClassroom.exists?(user_id: @owner.id, classroom_id: classroom.id) ? "checked" : "" %> <%= @can_edit ? "" : "disabled" %>>
             <label for="classroom<%= classroom.id %>-checkbox"><%= classroom.name %></label><br>
         <% end %>
 
-        <input type="submit" value="保存">
+        <button type="submit" style="<%= @can_edit ? "" : "display:none;" %>">保存</button>
     </form>
 </section>
