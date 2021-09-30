@@ -166,22 +166,17 @@ end
 
 get '/search' do
     @current_user = current_user
-    puts @current_user.token_key
-
-    # puts "=============================== /search start ==================================="
-    # puts Course.find(params[:courses][0]).name
-    # puts Course.find(params[:courses][1]).name
-    # puts "0 -> 1の場合"
-    # @users1 = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][0])).merge(UserCourse.where(course_id: params[:courses][1]))
-    # @users1.each do |user| puts user.nickname end
-    # puts "1 -> 0の場合"
-    # @users2 = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][1])).merge(UserCourse.where(course_id: params[:courses][0]))
-    # @users2.each do |user| puts user.nickname end
-    # puts "=============================== /search  end  ==================================="
 
     # 地域で絞り込み
     @users = params[:area_id] == "-1" ? User.all : User.where(area_id: params[:area_id])
-    @users.each do |user| puts user.nickname end
+
+    # コースで絞り込み
+    course_ids = params[:course_ids]
+    unless course_ids.nil?
+        @users = course_ids.inject(@users.to_a) do |users, course_id|
+            users.intersection(Course.find(course_id).users.to_a)
+        end
+    end
 
     calendar = Google::Apis::CalendarV3::CalendarService.new
     calendar.authorization = credentials_for(@current_user.token_key)
