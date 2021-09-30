@@ -102,9 +102,6 @@ post '/signin' do
     audience = settings.client_id.id
     validator = GoogleIDToken::Validator.new
     claim = validator.check(params['id_token'], audience, audience)
-
-    puts claim
-
     if claim
         # ログインユーザーをデータベースから参照．
         user = User.find_or_initialize_by(token_key: claim['sub'])
@@ -119,15 +116,6 @@ post '/signin' do
         end
         # ログインユーザーの情報をセッションに保存．
         session[:token_key] = user.token_key
-
-        puts "==================== current user ===================="
-        puts user.token_key
-        puts user.name
-        puts user.email
-        puts user.image_url
-        puts user.default_image_url
-        puts "==================== current user ===================="
-
         200
     else
         logger.info('No valid identity token present')
