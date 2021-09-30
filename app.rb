@@ -167,10 +167,10 @@ end
 get '/search' do
     @current_user = current_user
 
-    # 地域で絞り込み
+    # 地域で絞り込み．
     @users = params[:area_id] == "-1" ? User.all : User.where(area_id: params[:area_id])
 
-    # コースで絞り込み
+    # コースで絞り込み．
     course_ids = params[:course_ids]
     unless course_ids.nil?
         @users = course_ids.inject(@users.to_a) do |users, course_id|
