@@ -124,7 +124,7 @@ get '/' do
     if session[:token_key]
         @current_user = current_user
         @users = User.all
-        @schedules = schedules_json(Time.now.to_s[0,10])
+        #@schedules = schedules_json(Time.now.to_s[0,10])
     end
 
     erb :calendar
