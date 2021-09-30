@@ -164,7 +164,7 @@ post '/update' do
     redirect '/'
 end
 
-post '/search' do
+get '/search' do
     @current_user = current_user
     puts @current_user.token_key
 
