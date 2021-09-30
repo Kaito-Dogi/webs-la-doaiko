@@ -90,7 +90,7 @@
                 <p class="user-name"><%= user.nickname %></p>
                 <p class="user-term"><%= user.area.name %><%= "#{user.term}期" %></p>
                 <p class="user-courses">
-                  <% user.courses do |course| %>
+                  <% user.courses.each do |course| %>
                     <%= "#{course.name}, " %>
                   <% end %>
                 </p>

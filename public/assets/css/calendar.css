@@ -209,6 +209,7 @@ input[type="date"] {
 .schedule-wrapper {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .hour-box {
@@ -224,6 +225,15 @@ input[type="date"] {
 
 .calendar-row:last-child .hour-box {
     border-bottom: 2px solid #f1f2f5;
+}
+
+.event-box {
+    position: absolute;
+    height: 64px;
+    border-radius: 12px;
+    background-color: #39A3FF;
+    opacity: 0.8;
+    top: 0;
 }
 
 #nobody-message {

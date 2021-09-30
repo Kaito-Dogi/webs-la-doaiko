@@ -24,9 +24,17 @@ for (let i = 0; i < courseCheckboxes.length; i++) {
   courseLabels[i].addEventListener('click', () => switchChipsStyle(courseCheckboxes[i], courseLabels[i], courseColorCodes[i]));
 }
 
-// 予定を表示する処理．
+// アプリケーションサーバーから予定のjsonを受け取る．
 const schedulesJson = document.getElementById("schedules-getter").textContent;
-var schedules = JSON.parse(schedulesJson);
-console.log("========== schedules ==========");
-console.log(schedules);
-console.log("========== schedules ==========");
+const schedules = JSON.parse(schedulesJson);
+
+// 予定を表示する処理．
+const calendarRows = document.getElementsByClassName("calendar-row");
+schedules.forEach((events, index) => {
+  const scheduleWrapper = calendarRows[index].getElementsByClassName("schedule-wrapper")[0];
+  var eventBox = document.createElement("div");
+  eventBox.setAttribute("class","event-box");
+  eventBox.style.left = "0px"
+  eventBox.style.width = "300px"
+  scheduleWrapper.appendChild(eventBox);
+});
