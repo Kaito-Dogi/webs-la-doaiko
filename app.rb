@@ -107,8 +107,10 @@ end
 
 # 初回ログイン時にマイページに遷移する．
 before '/' do
-    user = current_user
-    redirect "/mypage/#{user.id}" if current_user && current_user.nickname.nil?
+    if  session[:token_key]
+        user = current_user
+        redirect "/mypage/#{user.id}" if user.nickname.nil?
+    end
 end
 
 get '/' do
