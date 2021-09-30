@@ -28,13 +28,19 @@ for (let i = 0; i < courseCheckboxes.length; i++) {
 const schedulesJson = document.getElementById("schedules-getter").textContent;
 const schedules = JSON.parse(schedulesJson);
 
-// 予定を表示する処理．
-const calendarRows = document.getElementsByClassName("calendar-row");
+//各メンター毎に予定を表示する処理．
 schedules.forEach((events, index) => {
+  // 予定を表示するdivを取得．
+  const calendarRows = document.getElementsByClassName("calendar-row");
   const scheduleWrapper = calendarRows[index].getElementsByClassName("schedule-wrapper")[0];
-  var eventBox = document.createElement("div");
-  eventBox.setAttribute("class","event-box");
-  eventBox.style.left = "0px"
-  eventBox.style.width = "300px"
-  scheduleWrapper.appendChild(eventBox);
+
+  // 各予定毎にdivを生成し，描画する．
+  events.forEach((event) => {
+    const eventBox = document.createElement("div");
+    eventBox.setAttribute("class","event-box");
+    const left = (event.start_time_hour - 9 + event.start_time_min/60)*64;
+    eventBox.style.left = `${left}px`;
+    eventBox.style.width = `${event.duration*64/60/60}px`;
+    scheduleWrapper.appendChild(eventBox);
+  });
 });

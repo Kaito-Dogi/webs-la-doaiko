@@ -168,7 +168,7 @@ get '/search' do
 
     # 予定の取得の準備．
     request_date = params[:date]
-    request_start_time = Time.parse("#{request_date} 00:00:00")
+    request_start_time = Time.parse("#{request_date} 09:00:00")
     request_end_time = Time.parse("#{request_date} 23:59:59")
     calendar = Google::Apis::CalendarV3::CalendarService.new
 

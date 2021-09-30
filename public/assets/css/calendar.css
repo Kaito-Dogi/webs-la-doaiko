@@ -219,7 +219,7 @@ input[type="date"] {
     border-left: 2px solid #f1f2f5;
 }
 
-.hour-box:last-child {
+.last-hour-box {
     width: 32px;
 }
 
@@ -230,7 +230,7 @@ input[type="date"] {
 .event-box {
     position: absolute;
     height: 64px;
-    border-radius: 12px;
+    border-radius: 16px;
     background-color: #39A3FF;
     opacity: 0.8;
     top: 0;
