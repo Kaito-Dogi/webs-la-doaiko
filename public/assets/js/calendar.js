@@ -1,3 +1,4 @@
+// chipsのスタイルを変更する処理．
 const courseCheckboxes = document.getElementsByClassName("course-checkbox");
 const courseLabels = document.getElementsByClassName("course-chips");
 const courseColorCodes = [
@@ -22,3 +23,10 @@ const switchChipsStyle = (checkbox, label, colorCode) => {
 for (let i = 0; i < courseCheckboxes.length; i++) {
   courseLabels[i].addEventListener('click', () => switchChipsStyle(courseCheckboxes[i], courseLabels[i], courseColorCodes[i]));
 }
+
+// 予定を表示する処理．
+const schedulesJson = document.getElementById("schedules-getter").textContent;
+var schedules = JSON.parse(schedulesJson);
+console.log("========== schedules ==========");
+console.log(schedules);
+console.log("========== schedules ==========");
