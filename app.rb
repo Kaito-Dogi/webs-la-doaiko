@@ -182,6 +182,24 @@ post '/search' do
     @users = params[:area_id] == "-1" ? User.all : User.where(area_id: params[:area_id])
     @users.each do |user| puts user.nickname end
 
+    calendar = Google::Apis::CalendarV3::CalendarService.new
+    calendar.authorization = credentials_for(@users[0].token_key)
+    calendar_id = 'primary'
+    @result = calendar.list_events(
+        calendar_id,
+        max_results: 100,
+        single_events: true,
+        order_by: 'startTime',
+        time_min: Time.now.iso8601,
+        # time_max: (Time.now + 60*60*24).iso8601
+    )
+    @result.items.each do |item|
+        puts item.start.date_time || item.start.date
+        puts item.start.date.class
+        # puts item.end.date_time || item.end.date
+        # puts item.end.date_time - item.start.date_time || item.start.date - item.end.date
+    end
+
     erb :calendar
 end
 
