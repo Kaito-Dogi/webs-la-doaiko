@@ -171,8 +171,8 @@ post '/search' do
     # puts Course.find(params[:courses][0]).name
     # puts Course.find(params[:courses][1]).name
     # puts "0 -> 1の場合"
-    # @users = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][0]).merge(UserCourse.where(course_id: params[:courses][1])))
-    # @users.each do |user| puts user.nickname end
+    # @users1 = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][0]).merge(UserCourse.where(course_id: params[:courses][1])))
+    # @users1.each do |user| puts user.nickname end
     # puts "1 -> 0の場合"
     # @users2 = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][1]).merge(UserCourse.where(course_id: params[:courses][0])))
     # @users2.each do |user| puts user.nickname end
