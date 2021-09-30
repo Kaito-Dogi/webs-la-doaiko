@@ -64,6 +64,45 @@ helpers do
     def classrooms
         Classroom.all
     end
+
+    # 各ユーザーの予定を取得．
+    def schedules_json(date)
+        # 予定の取得の準備．
+        request_date = date
+        request_start_time = Time.parse("#{request_date} 09:00:00")
+        request_end_time = Time.parse("#{request_date} 23:59:59")
+        calendar = Google::Apis::CalendarV3::CalendarService.new
+
+        # 全ユーザーの予定を管理する2次元配列．
+        schedules = []
+
+        # 各ユーザー毎に予定を取得．
+        @users.each do |user|
+            events = []
+            calendar.authorization = credentials_for(user.token_key)
+            calendar_id = 'primary'
+
+            # Google Calendar APIから予定を取得．
+            result = calendar.list_events(
+                calendar_id,
+                single_events: true,
+                order_by: 'startTime',
+                time_min: request_start_time.iso8601,
+                time_max: request_end_time.iso8601
+            )
+
+            # 取得した予定をもとに，Eventインスタンスを生成．
+            result.items.each do |item|
+                start_date_time = item.start.date_time || item.start.date
+                end_date_time = item.end.date_time || item.end.date
+                events.push(Event.new(request_start_time, request_end_time, start_date_time, end_date_time))
+            end
+
+            schedules.push(events)
+        end
+
+        schedules.to_json
+    end
 end
 
 # 初回ログイン時にマイページに遷移する．
@@ -75,14 +114,15 @@ end
 get '/' do
     # Sign inボタンの表示に必要．
     @client_id = settings.client_id.id
+
     puts "==================== current user ===================="
     puts session[:token_key]
     puts "==================== current user ===================="
-    @current_user = current_user
 
-    if params[:area_id].nil?
-        @users = User.all
-    end
+    @current_user = current_user
+    @users = User.all
+    @schedules = schedules_json(Time.now.to_s[0,10])
+
     erb :calendar
 end
 
@@ -166,42 +206,7 @@ get '/search' do
         end
     end
 
-    # 予定の取得の準備．
-    request_date = params[:date]
-    request_start_time = Time.parse("#{request_date} 09:00:00")
-    request_end_time = Time.parse("#{request_date} 23:59:59")
-    calendar = Google::Apis::CalendarV3::CalendarService.new
-
-    # 全Userの予定を管理する2次元配列．
-    schedules = []
-
-    # 各User毎に予定を取得．
-    @users.each do |user|
-        events = []
-        calendar.authorization = credentials_for(user.token_key)
-        calendar_id = 'primary'
-
-        # Google Calendar APIから予定を取得．
-        result = calendar.list_events(
-            calendar_id,
-            single_events: true,
-            order_by: 'startTime',
-            time_min: request_start_time.iso8601,
-            time_max: request_end_time.iso8601
-        )
-
-        # 取得した予定をもとに，Eventインスタンスを生成．
-        result.items.each do |item|
-            start_date_time = item.start.date_time || item.start.date
-            end_date_time = item.end.date_time || item.end.date
-            events.push(Event.new(request_start_time, request_end_time, start_date_time, end_date_time))
-        end
-
-        schedules.push(events)
-    end
-
-    # jsに渡すため，jsonに変換する．
-    @schedules = schedules.to_json
+    @schedules = schedules_json(params[:date])
 
     erb :calendar
 end
