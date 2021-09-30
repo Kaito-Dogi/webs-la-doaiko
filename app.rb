@@ -166,15 +166,16 @@ end
 
 post '/search' do
     @current_user = current_user
+    puts @current_user.token_key
 
     # puts "=============================== /search start ==================================="
     # puts Course.find(params[:courses][0]).name
     # puts Course.find(params[:courses][1]).name
     # puts "0 -> 1の場合"
-    # @users1 = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][0]).merge(UserCourse.where(course_id: params[:courses][1])))
+    # @users1 = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][0])).merge(UserCourse.where(course_id: params[:courses][1]))
     # @users1.each do |user| puts user.nickname end
     # puts "1 -> 0の場合"
-    # @users2 = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][1]).merge(UserCourse.where(course_id: params[:courses][0])))
+    # @users2 = User.joins(:user_courses).merge(UserCourse.where(course_id: params[:courses][1])).merge(UserCourse.where(course_id: params[:courses][0]))
     # @users2.each do |user| puts user.nickname end
     # puts "=============================== /search  end  ==================================="
 
@@ -183,7 +184,7 @@ post '/search' do
     @users.each do |user| puts user.nickname end
 
     calendar = Google::Apis::CalendarV3::CalendarService.new
-    calendar.authorization = credentials_for(@users[0].token_key)
+    calendar.authorization = credentials_for(@current_user.token_key)
     calendar_id = 'primary'
     @result = calendar.list_events(
         calendar_id,
