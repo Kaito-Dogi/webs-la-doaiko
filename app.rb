@@ -178,23 +178,34 @@ get '/search' do
         end
     end
 
+    # 各メンターの予定の取得
     calendar = Google::Apis::CalendarV3::CalendarService.new
-    calendar.authorization = credentials_for(@current_user.token_key)
-    calendar_id = 'primary'
-    @result = calendar.list_events(
-        calendar_id,
-        max_results: 100,
-        single_events: true,
-        order_by: 'startTime',
-        time_min: Time.now.iso8601,
-        # time_max: (Time.now + 60*60*24).iso8601
-    )
-    @result.items.each do |item|
-        puts item.start.date_time || item.start.date
-        puts item.start.date.class
-        # puts item.end.date_time || item.end.date
-        # puts item.end.date_time - item.start.date_time || item.start.date - item.end.date
+    @schedules = []
+    @users.each do |user|
+        calendar.authorization = credentials_for(user.token_key)
+        calendar_id = 'primary'
+        @schedules.push(
+            calendar.list_events(
+                calendar_id,
+                max_results: 100,
+                single_events: true,
+                order_by: 'startTime',
+                time_min: Time.now.iso8601,
+                time_max: (Time.now + 60*60*24).iso8601
+            )
+        )
     end
+
+    puts "==================== Get schedules ===================="
+    puts "@usersの要素数：#{@users.length}"
+    puts "@schedulesの要素数：#{@schedules.length}"
+    @schedules.each_with_index do |schedule, idx|
+        puts "#{idx+1}人目"
+        schedule.items.each do |item|
+            puts "開始時刻：#{item.start.date_time || item.start.date}"
+        end
+    end
+    puts "==================== Get schedules ===================="
 
     erb :calendar
 end
