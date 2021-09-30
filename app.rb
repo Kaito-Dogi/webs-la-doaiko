@@ -178,61 +178,47 @@ get '/search' do
         end
     end
 
-    # 各メンターの予定の取得
+    # 予定の取得の準備．
+    request_date = params[:date]
+    request_start_time = Time.parse("#{request_date} 00:00:00")
+    request_end_time = Time.parse("#{request_date} 23:59:59")
     calendar = Google::Apis::CalendarV3::CalendarService.new
-    @schedules = []
+
+    # 全Userの予定を管理する2次元配列．
+    schedules = []
+
+    # 各User毎に予定を取得．
     @users.each do |user|
+        events = []
         calendar.authorization = credentials_for(user.token_key)
         calendar_id = 'primary'
-        @schedules.push(
-            calendar.list_events(
-                calendar_id,
-                max_results: 100,
-                single_events: true,
-                order_by: 'startTime',
-                time_min: Time.now.iso8601,
-                time_max: (Time.now + 60*60*24).iso8601
-            )
+
+        # Google Calendar APIから予定を取得．
+        result = calendar.list_events(
+            calendar_id,
+            single_events: true,
+            order_by: 'startTime',
+            time_min: request_start_time.iso8601,
+            time_max: request_end_time.iso8601
         )
-    end
 
-    puts "==================== Get schedules ===================="
-    puts "@usersの要素数：#{@users.length}"
-    puts "@schedulesの要素数：#{@schedules.length}"
-    @schedules.each_with_index do |schedule, idx|
-        puts "#{idx+1}人目"
-        schedule.items.each do |item|
-            puts "開始時刻：#{item.start.date_time || item.start.date}"
+        # 取得した予定をもとに，Eventインスタンスを生成．
+        result.items.each do |item|
+            start_date_time = item.start.date_time || item.start.date
+            end_date_time = item.end.date_time || item.end.date
+            events.push(Event.new(request_start_time, request_end_time, start_date_time, end_date_time))
         end
+
+        schedules.push(events)
     end
-    puts "==================== Get schedules ===================="
+
+    # jsに渡すため，jsonに変換する．
+    @schedules = schedules.to_json
 
     erb :calendar
 end
 
-get('/calendar') do
-    calendar = Google::Apis::CalendarV3::CalendarService.new
-    calendar.authorization = credentials_for("103974833804776463435")
-    calendar_id = 'primary'
-    @result = calendar.list_events(
-        calendar_id,
-        max_results: 100,
-        single_events: true,
-        order_by: 'startTime',
-        time_min: Time.now.iso8601,
-        # time_max: (Time.now + 60*60*24).iso8601
-    )
-    @result.items.each do |item|
-        puts item.start.date_time || item.start.date
-        puts item.start.date.class
-        # puts item.end.date_time || item.end.date
-        # puts item.end.date_time - item.start.date_time || item.start.date - item.end.date
-    end
-    @current_user = current_user
-    erb :calendar
-end
-
-get('/oauth2callback') do
+get '/oauth2callback' do
     target_url = Google::Auth::WebUserAuthorizer.handle_auth_callback_deferred(request)
     redirect target_url
 end
