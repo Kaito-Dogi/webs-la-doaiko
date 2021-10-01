@@ -109,7 +109,7 @@ end
 before '/' do
     if  session[:token_key]
         user = current_user
-        redirect "/mypage/#{user.id}" if user.nickname.nil?
+        redirect "/mypage/#{user.id}" if !user.nil? && user.nickname.nil?
     end
 end
 
