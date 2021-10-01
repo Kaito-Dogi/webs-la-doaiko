@@ -84,8 +84,7 @@ helpers do
         # 各ユーザー毎に予定を取得．
         @users.each do |user|
             events = []
-            # calendar.authorization = credentials_for(user.token_key)
-            calendar.authorization = credentials_for("103974833804776463435")
+            calendar.authorization = credentials_for(user.token_key)
             calendar_id = 'primary'
 
             # Google Calendar APIから予定を取得．
