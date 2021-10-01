@@ -11,7 +11,7 @@
           <% end %>
         </select>
         <input type="number" name="term" placeholder="期" value="<%= @owner.term %>" min="1" max="13" <%= @can_edit ? "" : "readonly" %> required><br>
-        <input type="file" name="file" accept="image/*" style="<%= @can_edit ? "" : "display:none;" %>"><br>
+        <!--<input type="file" name="file" accept="image/*" style="<%#= @can_edit ? "" : "display:none;" %>"><br>-->
 
         <h2>担当コース</h2>
         <% courses.each do |course| %>
