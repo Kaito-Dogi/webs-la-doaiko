@@ -105,7 +105,7 @@ helpers do
     end
 end
 
-初回ログイン時にマイページに遷移する．
+#初回ログイン時にマイページに遷移する．
 before '/' do
     if  session[:token_key]
         user = current_user
