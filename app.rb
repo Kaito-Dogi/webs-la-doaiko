@@ -50,6 +50,11 @@ helpers do
         User.find_by(token_key: session[:token_key])
     end
 
+    # 有効なユーザーを全員取得．
+    def valid_users
+        User.where.not(nickname: nil, term: nil, area_id: nil)
+    end
+
     # 全ての地域を取得．
     def areas
         Area.all
@@ -123,7 +128,7 @@ get '/' do
 
     if session[:token_key]
         @current_user = current_user
-        @users = User.all
+        @users = valid_users
         #@schedules = schedules_json(Time.now.to_s[0,10])
     end
 
@@ -200,7 +205,7 @@ get '/search' do
     @current_user = current_user
 
     # 地域で絞り込み．
-    @users = params[:area_id] == "-1" ? User.all : User.where(area_id: params[:area_id])
+    @users = params[:area_id] == "-1" ? valid_users : valid_users.where(area_id: params[:area_id])
 
     # コースで絞り込み．
     course_ids = params[:course_ids]
