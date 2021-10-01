@@ -106,12 +106,12 @@ helpers do
 end
 
 # 初回ログイン時にマイページに遷移する．
-before '/' do
-    if  session[:token_key]
-        user = current_user
-        redirect "/mypage/#{user.id}" if user.nickname.nil?
-    end
-end
+# before '/' do
+#     if  session[:token_key]
+#         user = current_user
+#         redirect "/mypage/#{user.id}" if user.nickname.nil?
+#     end
+# end
 
 get '/' do
     # Sign inボタンの表示に必要．
