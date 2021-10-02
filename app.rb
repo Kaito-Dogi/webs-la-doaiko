@@ -18,9 +18,9 @@ configure do
     Google::Apis::ClientOptions.default.application_name = 'DOAIKO'
     Google::Apis::ClientOptions.default.application_version = '0.9'
     Google::Apis::RequestOptions.default.retries = 3
-    
+
     enable :sessions
-    
+
     set :show_exceptions, false
     set :client_id, Google::Auth::ClientId.new(
         ENV['GOOGLE_CLIENT_ID'],
@@ -36,11 +36,12 @@ helpers do
         redirect LOGIN_URL if session[:token_key].nil?
         credentials = authorizer.get_credentials(token_key, request)
         if credentials.nil?
-            redirect authorizer.get_authorization_url(login_hint: token_key, request: request)
+            puts "=========================== #{token_key}のaccess_tokenが取得できていません． ==========================="
+            #redirect authorizer.get_authorization_url(login_hint: token_key, request: request)
         end
         credentials
     end
-    
+
     def resize(url, width)
         url.sub(/s220/, sprintf('s%d', width))
     end
@@ -64,7 +65,7 @@ helpers do
     def courses
         Course.all
     end
-    
+
     # 全てのクラスを取得．
     def classrooms
         Classroom.all
@@ -84,24 +85,26 @@ helpers do
         # 各ユーザー毎に予定を取得．
         @users.each do |user|
             events = []
-            # calendar.authorization = credentials_for(user.token_key)
-            calendar.authorization = credentials_for("103974833804776463435")
-            calendar_id = 'primary'
 
-            # Google Calendar APIから予定を取得．
-            result = calendar.list_events(
-                calendar_id,
-                single_events: true,
-                order_by: 'startTime',
-                time_min: request_start_time.iso8601,
-                time_max: request_end_time.iso8601
-            )
+            unless credentials_for(user.token_key).nil?
+                calendar.authorization = credentials_for(user.token_key)
+                calendar_id = 'primary'
 
-            # 取得した予定をもとに，Eventインスタンスを生成．
-            result.items.each do |item|
-                start_date_time = item.start.date_time || item.start.date
-                end_date_time = item.end.date_time || item.end.date
-                events.push(Event.new(request_start_time, request_end_time, start_date_time, end_date_time))
+                # Google Calendar APIから予定を取得．
+                result = calendar.list_events(
+                    calendar_id,
+                    single_events: true,
+                    order_by: 'startTime',
+                    time_min: request_start_time.iso8601,
+                    time_max: request_end_time.iso8601
+                )
+
+                # 取得した予定をもとに，Eventインスタンスを生成．
+                result.items.each do |item|
+                    start_date_time = item.start.date_time || item.start.date
+                    end_date_time = item.end.date_time || item.end.date
+                    events.push(Event.new(request_start_time, request_end_time, start_date_time, end_date_time))
+                end
             end
 
             schedules.push(events)
@@ -130,7 +133,7 @@ get '/' do
     if session[:token_key]
         @current_user = current_user
         @users = valid_users
-        #@schedules = schedules_json(Time.now.to_s[0,10])
+        @schedules = schedules_json(Time.now.to_s[0,10])
     end
 
     erb :calendar
