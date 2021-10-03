@@ -37,7 +37,7 @@ helpers do
         credentials = authorizer.get_credentials(token_key, request)
         if credentials.nil?
             puts "=========================== #{token_key}のaccess_tokenが取得できていません． ==========================="
-            #redirect authorizer.get_authorization_url(login_hint: token_key, request: request)
+            redirect authorizer.get_authorization_url(login_hint: token_key, request: request)
         end
         credentials
     end
@@ -72,7 +72,7 @@ helpers do
     end
 
     # 各ユーザーの予定を取得．
-    def schedules_json(date)
+    def schedules_json(date, users)
         # 予定の取得の準備．
         request_date = date
         request_start_time = Time.parse("#{request_date} 09:00:00")
@@ -83,11 +83,13 @@ helpers do
         schedules = []
 
         # 各ユーザー毎に予定を取得．
-        @users.each do |user|
+        users.each do |user|
             events = []
 
             unless credentials_for(user.token_key).nil?
+                puts "=========================== #{user.token_key}でAPIを叩きます． ==========================="
                 calendar.authorization = credentials_for(user.token_key)
+                puts "=========================== #{user.token_key}でAPIを叩きました． ==========================="
                 calendar_id = 'primary'
 
                 # Google Calendar APIから予定を取得．
@@ -105,6 +107,8 @@ helpers do
                     end_date_time = item.end.date_time || item.end.date
                     events.push(Event.new(request_start_time, request_end_time, start_date_time, end_date_time))
                 end
+            else
+                puts "=========================== #{user.token_key}がnilです． ==========================="
             end
 
             schedules.push(events)
@@ -133,7 +137,7 @@ get '/' do
     if session[:token_key]
         @current_user = current_user
         @users = valid_users
-        @schedules = schedules_json(Time.now.to_s[0,10])
+        # @schedules = schedules_json(Time.now.to_s[0,10], @users)
     end
 
     erb :calendar
@@ -219,7 +223,7 @@ get '/search' do
         end
     end
 
-    @schedules = schedules_json(params[:date])
+    @schedules = schedules_json(params[:date], @users)
 
     erb :calendar
 end
