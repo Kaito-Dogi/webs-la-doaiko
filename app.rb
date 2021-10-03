@@ -86,11 +86,10 @@ helpers do
         users.each do |user|
             events = []
 
-            unless credentials_for("103974833804776463435").nil?
-                # puts "=========================== #{user.token_key}でAPIを叩きます． ==========================="
-                # calendar.authorization = credentials_for(user.token_key)
-                # puts "=========================== #{user.token_key}でAPIを叩きました． ==========================="
-                calendar.authorization = credentials_for("103974833804776463435")
+            unless credentials_for(user.token_key).nil?
+                puts "=========================== #{user.token_key}でAPIを叩きます． ==========================="
+                calendar.authorization = credentials_for(user.token_key)
+                puts "=========================== #{user.token_key}でAPIを叩きました． ==========================="
                 calendar_id = 'primary'
 
                 # Google Calendar APIから予定を取得．
